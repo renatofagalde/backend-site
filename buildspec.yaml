@@ -10,7 +10,7 @@ env:
 
 phases:
 
-#  install:
+  install:
 #    runtimes-version:
 #      # using golang
 #      golang: 1.21
