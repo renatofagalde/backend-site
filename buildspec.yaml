@@ -12,7 +12,7 @@ phases:
 
   install:
     runtime-versions:
-      golang: 1.21
+      golang: 1.20
     commands:
 
       # AWS Codebuild Go images use /go for the $GOPATH so let's copy our
