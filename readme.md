@@ -16,6 +16,37 @@
   ```
 
 
+### Create S3 bucket to store codebuild artifacts
+- br.com.likwi.artifacts.apps.backend-site-dev
+- br.com.likwi.artifacts.apps.backend-site-hom
+- br.com.likwi.artifacts.apps.backend-site-prd
+
+### BuildSpec
+- Use this documentation: [AWS CodeBuild](https://docs.aws.amazon.com/codebuild/latest/userguide/getting-started-create-build-spec-console.html)
+- Available runtimes: [runtime](https://docs.aws.amazon.com/codebuild/latest/userguide/available-runtimes.html)
+
+```yaml
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto11
+  pre_build:
+    commands:
+      - echo Nothing to do in the pre_build phase...
+  build:
+    commands:
+      - echo Build started on `date`
+      - mvn install
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - target/messageUtil-1.0.jar
+```
+
 
 ### This is the explanation of our file structure:
 ```tree
