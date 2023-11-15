@@ -1,6 +1,6 @@
 module backend-site
 
-go 1.20.5
+go 1.20
 
 require (
 	github.com/aws/aws-lambda-go v1.41.0
