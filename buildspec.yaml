@@ -11,9 +11,8 @@ env:
 phases:
 
   install:
-#    runtimes-version:
-#      # using golang
-#      golang: 1.21
+    runtimes-version:
+      golang: 1.21
 
     commands:
 
@@ -27,7 +26,7 @@ phases:
       - env
 
       # Install golint
-      - go get -u github.com/golang/lint/golint
+      - sudo go get -u github.com/golang/lint/golint
 
   pre_build:
     commands:
