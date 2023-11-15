@@ -11,28 +11,24 @@ env:
 phases:
 
   install:
-    runtimes-version:
-      golang: 1.21
-
     commands:
 
       # AWS Codebuild Go images use /go for the $GOPATH so let's copy our
       # application source code into that directory structure.
-      - echo running commands
-      - mkdir -p "~/$(dirname ${PACKAGE})"
-      - ln -s "${CODEBUILD_SRC_DIR}" "~/${PACKAGE}"
+      - mkdir -p "/go/src/$(dirname ${PACKAGE})"
+      - ln -s "${CODEBUILD_SRC_DIR}" "/go/src/${PACKAGE}"
 
       # Print all environment variables (handy for AWS CodeBuild logs)
       - env
 
       # Install golint
-      - sudo go get -u github.com/golang/lint/golint
+      - go get -u github.com/golang/lint/golint
 
   pre_build:
     commands:
-      - echo running pre build
+
       # Make sure we're in the project directory within our GOPATH
-      - cd "~/{PACKAGE}"
+      - cd "/go/src/${PACKAGE}"
 
       # Fetch all dependencies
       - go get -t ./...
@@ -47,9 +43,7 @@ phases:
       - go test ./...
 
   build:
-
     commands:
-      - echo running build's command
 
       # Build our go application
       - go build -o main main.go
