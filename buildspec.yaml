@@ -55,4 +55,4 @@ phases:
 
 artifacts:
   files:
-    - packaged.yml
+    - packaged.yaml
