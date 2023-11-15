@@ -11,6 +11,8 @@ env:
 phases:
 
   install:
+    runtime-versions:
+      golang: 1.21
     commands:
 
       # AWS Codebuild Go images use /go for the $GOPATH so let's copy our
@@ -22,7 +24,7 @@ phases:
       - env
 
       # Install golint
-      - go get -u github.com/golang/lint/golint
+      # - go get -u github.com/golang/lint/golint
 
   pre_build:
     commands:
