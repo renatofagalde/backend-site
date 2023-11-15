@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Parameters:
+  Stage:
+    Type: String
+    Default: "dev"
+    Description: "The stage for the Lambda function (e.g., dev, prod, etc.)"
+    AllowedValues: ["dev", "hom", "prd"]
+
+Resources:
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "LambdaExecutionRole-${Stage}"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: LambdaExecutionPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+
+  Backend-site:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: main # Assuming your entry point is named "main"
+      Runtime: go1.x
+      FunctionName: !Sub "Backend-site-${Stage}" # Include the stage in the function name
+      Code:
+        S3Bucket: "br.com.likwi.artifacts.apps.backend-site-dev"  # Add the appropriate S3 bucket for your deployment
+        S3Key: "main.zip" # Add the appropriate path to your deployment package
+      MemorySize: 256
+      Timeout: 10
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Environment:
+        Variables:
+          STAGE: !Ref Stage # Use the Stage parameter as an environment variable
+          # Add any other environment variables your function needs
