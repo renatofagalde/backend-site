@@ -39,7 +39,7 @@ Resources:
       FunctionName: !Sub "Backend-site-${Stage}" # Include the stage in the function name
       Code:
         S3Bucket: "br.com.likwi.artifacts.apps.backend-site-dev"  # Add the appropriate S3 bucket for your deployment
-#        S3Key: "main.zip" # Add the appropriate path to your deployment package
+        S3Key: "main.go" # Add the appropriate path to your deployment package
       MemorySize: 256
       Timeout: 10
       Role: !GetAtt LambdaExecutionRole.Arn
