@@ -55,9 +55,9 @@ phases:
       - go build -o backend-site main.go
       - echo 🆗 -> 🖥️
       - echo zipando 🗃️
-#      - zip backend-site.zip backend-site
-#      - echo 🚀 -> 🪣
-#      - aws s3 cp backend-site.zip s3://br.com.likwi.artifacts.apps.backend-site-dev
+      - zip backend-site.zip backend-site
+      - echo 🚀 -> 🪣
+      - aws s3 cp backend-site.zip s3://br.com.likwi.artifacts.apps.backend-site-dev
 
       # Package our application with AWS SAM
       - aws cloudformation package --template-file template.yaml --s3-bucket ${S3_BUCKET} --output-template-file packaged.yaml
