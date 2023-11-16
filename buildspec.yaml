@@ -67,7 +67,7 @@ phases:
       - aws cloudformation package --template-file template.yaml --output-template-file packaged.yaml --s3-bucket ${S3_BUCKET}
 
       # Package our application with AWS SAM
-      -  🔥🔥🔥🔥🔥🔥 -> 🚀 -> 🪣
+      - echo 🔥🔥🔥🔥🔥🔥 -> 🚀 -> 🪣
       - aws cloudformation deploy --template-file packaged.yaml --stack-name BackendSiteFunction --capabilities CAPABILITY_IAM
 
 artifacts:
