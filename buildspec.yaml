@@ -68,7 +68,7 @@ phases:
 
       # Package our application with AWS SAM
       - echo 🔥🔥🔥🔥🔥🔥 -> 🚀 -> 🪣
-      - aws cloudformation deploy --template-file packaged.yaml --stack-name BackendSiteFunction --capabilities CAPABILITY_IAM
+      #- aws cloudformation deploy --template-file packaged.yaml --stack-name BackendSiteFunction --capabilities CAPABILITY_IAM
 
 artifacts:
   files:
