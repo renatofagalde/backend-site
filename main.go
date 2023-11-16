@@ -16,7 +16,7 @@ func main() {
 
 func handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	seed := time.Now().UTC().UnixNano()
-	nameGenerator := fmt.Sprintf("Random pipe 109 -> %s", namegenerator.NewNameGenerator(seed).Generate())
+	nameGenerator := fmt.Sprintf("Random pipe 110 -> %s", namegenerator.NewNameGenerator(seed).Generate())
 
 	fmt.Println("console")
 
