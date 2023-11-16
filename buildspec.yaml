@@ -63,6 +63,9 @@ phases:
       - echo 🚀 -> 🪣
       - aws s3 cp ${PACKAGE}.zip s3://${S3_BUCKET}
 
+      # Create packaged.yaml
+      - aws cloudformation package --template-file template.yaml --output-template-file packaged.yaml --s3-bucket ${S3_BUCKET}
+
       # Package our application with AWS SAM
       - aws cloudformation package --template-file template.yaml --s3-bucket ${S3_BUCKET} --output-template-file packaged.yaml
 
