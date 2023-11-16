@@ -27,6 +27,14 @@ GOOS=linux GOARCH=amd64  CGO_ENABLED=0 go build -o backend-site main.go
 ```
 
 ```shell
+zip backend-site.zip backend-site
+```
+
+```shell
+aws s3 cp backend-site.zip s3://br.com.likwi.artifacts.apps.backend-site-dev
+```
+
+```shell
 aws cloudformation package --template-file template.yaml --output-template-file packaged.yaml --s3-bucket br.com.likwi.artifacts.apps.backend-site-dev
 ```
 
