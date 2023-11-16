@@ -51,10 +51,10 @@ phases:
   build:
     commands:
 
-      - echo creating module 🛞
-      - go mod backend-site
-
-      # Build our go application
+#      - echo creating module 🛞
+#      - go mod backend-site
+#
+#      # Build our go application
 #      - echo compilando 😎
 #      - go build -o backend-site main.go
 #      - echo 🆗 -> 🖥️
