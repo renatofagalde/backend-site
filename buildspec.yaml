@@ -55,8 +55,8 @@ phases:
       - go mod backend-site
 
       # Build our go application
-      - echo compilando 😎
-      - go build -o backend-site main.go
+#      - echo compilando 😎
+#      - go build -o backend-site main.go
 #      - echo 🆗 -> 🖥️
 #      - echo zipando 🗃️
 #      - zip backend-site.zip backend-site
