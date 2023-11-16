@@ -18,6 +18,8 @@ func handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.API
 	seed := time.Now().UTC().UnixNano()
 	nameGenerator := fmt.Sprintf("Random-> %s", namegenerator.NewNameGenerator(seed).Generate())
 
+	fmt.Println("console")
+
 	return events.APIGatewayProxyResponse{
 		Body:       string(nameGenerator),
 		StatusCode: http.StatusOK,

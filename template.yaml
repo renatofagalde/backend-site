@@ -1,49 +1,48 @@
-AWSTemplateFormatVersion: "2010-09-09"
+AWSTemplateFormatVersion: '2010-09-09'
+
 
 Parameters:
-  STAGE:
+  stage:
     Type: String
     Default: "dev"
-    Description: "The stage for the Lambda function (e.g., dev, prod, etc.)"
+    Description: "The stage for the Lambda function (dev, hom, prd)"
     AllowedValues: ["dev", "hom", "prd"]
 
 Resources:
-  LambdaExecutionRole:
-    Type: AWS::IAM::Role
+  BackendSiteFunction:
+    Type: 'AWS::Lambda::Function'
     Properties:
-      RoleName: !Sub "LambdaExecutionRole-${STAGE}"
+      Handler: backend-site
+      Role: !GetAtt BackendSiteFunctionRole.Arn
+      FunctionName: !Sub "backend-site-${stage}"
+      Runtime: go1.x
+      MemorySize: 128
+      Timeout: 30
+      Code:
+        S3Bucket: br.com.likwi.artifacts.apps.backend-site-dev
+        S3Key: backend-site.zip
+    Metadata:
+      Comment: "This CloudFormation stack creates the Lambda function and associated resources for the specified stage."
+      AWS::CloudFormation::StackName: !Sub "BackendSiteFunction-${stage}"
+
+  BackendSiteFunctionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
       AssumeRolePolicyDocument:
-        Version: "2012-10-17"
+        Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal:
               Service: lambda.amazonaws.com
             Action: sts:AssumeRole
       Policies:
-        - PolicyName: LambdaExecutionPolicy
+        - PolicyName: LambdaBasicExecution
           PolicyDocument:
-            Version: "2012-10-17"
+            Version: '2012-10-17'
             Statement:
               - Effect: Allow
                 Action:
                   - logs:CreateLogGroup
                   - logs:CreateLogStream
                   - logs:PutLogEvents
-                Resource: "*"
-
-  BackendSite:
-    Type: AWS::Lambda::Function
-    Properties:
-      Handler: main # Assuming your entry point is named "main"
-      Runtime: go1.x
-      FunctionName: !Sub "Backend-site-${STAGE}" # Include the stage in the function name
-      Code:
-        S3Bucket: "br.com.likwi.artifacts.apps.backend-site-dev"  # Add the appropriate S3 bucket for your deployment
-        S3Key: "main.go" # Add the appropriate path to your deployment package
-      MemorySize: 256
-      Timeout: 10
-      Role: !GetAtt LambdaExecutionRole.Arn
-      Environment:
-        Variables:
-          STAGE: !Ref STAGE # Use the Stage parameter as an environment variable
-          # Add any other environment variables your function needs
+                Resource: arn:aws:logs:*:*:*
