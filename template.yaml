@@ -20,9 +20,9 @@ Resources:
       Code:
         S3Bucket: br.com.likwi.artifacts.apps.backend-site-dev
         S3Key: backend-site.zip
-    Metadata:
-      Comment: "This CloudFormation stack creates the Lambda function and associated resources for the specified stage."
-      AWS::CloudFormation::StackName: !Sub "BackendSiteFunction-${stage}"
+#    Metadata:
+#      Comment: "This CloudFormation stack creates the Lambda function and associated resources for the specified stage."
+#      AWS::CloudFormation::StackName: !Sub "BackendSiteFunction-${stage}"
 
   BackendSiteFunctionRole:
     Type: 'AWS::IAM::Role'
