@@ -15,7 +15,7 @@ Globals:
     MemorySize: 128
     Environment:
       Variables:
-        Stage: !Ref Stage
+        Stage: !Ref stage
 
 Resources:
   BackendSiteAppFunction:

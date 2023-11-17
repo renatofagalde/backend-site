@@ -39,7 +39,7 @@ aws cloudformation package --template-file template.yaml --output-template-file 
 ```
 
 ```shell
-aws cloudformation deploy --template-file packaged.yaml --stack-name BackendSiteFunction --capabilities CAPABILITY_IAM
+aws cloudformation deploy --template-file packaged.yaml --stack-name BackendSiteAppFunction --capabilities CAPABILITY_IAM
 ```
 
 
