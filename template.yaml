@@ -5,7 +5,7 @@ Transform:
   - AWS::Serverless-2016-10-31
 
 Parameters:
-  stage:
+  Stage:
     Type: String
     Default: dev
 
@@ -15,13 +15,13 @@ Globals:
     MemorySize: 128
     Environment:
       Variables:
-        Stage: !Ref stage
+        Stage: !Ref Stage
 
 Resources:
-  BackendSiteAppFunction:
+  BackendSiteTest:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: backend-site-dev
+      FunctionName: !Ref AWS::StackName
       Runtime: go1.x
       CodeUri: .
       Handler: main
@@ -38,7 +38,7 @@ Resources:
 Outputs:
   UserListFunction:
     Description: First Lambda Function ARN
-    Value: !GetAtt BackendSiteAppFunction.Arn
+    Value: !GetAtt BackendSiteTest.Arn
   UserListFunctionFunctionIamRole:
     Description: Implicit IAM Role created for Hello World function
-    Value: !GetAtt BackendSiteAppFunction.Arn
+    Value: !GetAtt BackendSiteTest.Arn
