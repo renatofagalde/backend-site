@@ -23,7 +23,7 @@ Resources:
     Properties:
       FunctionName: !Ref AWS::StackName
       Runtime: go1.x
-      CodeUri: site/get/
+      CodeUri: .
       Handler: main
       Description: Call the AWS Lambda API
       Timeout: 5
