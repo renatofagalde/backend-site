@@ -11,17 +11,14 @@ env:
 phases:
 
   install:
-    runtime-versions:
-      golang: 1.20
+#    runtime-versions:
+#      golang: 1.20
     commands:
 
       # AWS Codebuild Go images use /go for the $GOPATH so let's copy our
       # application source code into that directory structure.
       - mkdir -p "/go/src/$(dirname ${PACKAGE})"
       - ln -s "${CODEBUILD_SRC_DIR}" "/go/src/${PACKAGE}"
-      - GOOS=linux
-      - GOARCH=amd64
-      - CGO_ENABLED=0
 
       # Print all environment variables (handy for AWS CodeBuild logs)
       - env
@@ -32,8 +29,15 @@ phases:
   pre_build:
     commands:
 
+      - echo setting GOXX variables 🖖
+      - GOOS=linux
+      - GOARCH=amd64
+      - CGO_ENABLED=0
+      - echo 🚀 -> 🪣
+      - go mod tidy
+
       # Make sure we're in the project directory within our GOPATH
-      - cd "/go/src/${PACKAGE}"
+#      - cd "/go/src/${PACKAGE}"
 
 
       # Fetch all dependencies
@@ -48,27 +52,14 @@ phases:
       # Run all tests included with our application
       - go test ./...
 
+
   build:
     commands:
-
-#      - echo creating module 🛞
-#      - go mod backend-site
-#
-#      # Build our go application
-      - echo compilando 😎
-      - go build -o backend-site main.go
-      - echo 🆗 -> 🖥️
-      - echo zipando 🗃️
-      - zip backend-site.zip backend-site
-      - echo 🚀 -> 🪣
-      - aws s3 cp ${PACKAGE}.zip s3://${S3_BUCKET}
-
-      # Create packaged.yaml
-      - aws cloudformation package --template-file template.yaml --output-template-file packaged.yaml --s3-bucket ${S3_BUCKET}
+      # Build our go application
+      - go build -o site/get main.go
 
       # Package our application with AWS SAM
-      - echo 🔥🔥🔥🔥🔥🔥 -> 🚀 -> 🪣
-      #- aws cloudformation deploy --template-file packaged.yaml --stack-name BackendSiteFunction --capabilities CAPABILITY_IAM
+      - aws cloudformation package --template-file template.yaml --s3-bucket ${S3_BUCKET} --output-template-file packaged.yaml
 
 artifacts:
   files:
