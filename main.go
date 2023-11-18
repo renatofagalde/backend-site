@@ -1,16 +1,28 @@
 package main
 
 import (
+	"backend-site/src/controller/routes"
 	"context"
-	"fmt"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/goombaio/namegenerator"
+	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"log"
-	"net/http"
-	"time"
 )
+
+var ginLambda *ginadapter.GinLambda
+
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	router := gin.Default()
+	routes.InitRoutes(&router.RouterGroup)
+	ginLambda = ginadapter.New(router)
+}
 
 func main() {
 	lambda.Start(handler)
@@ -18,20 +30,5 @@ func main() {
 
 func handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
-	seed := time.Now().UTC().UnixNano()
-	nameGenerator := fmt.Sprintf("rodando pela pip 17:44 -> %s", namegenerator.NewNameGenerator(seed).Generate())
-
-	var body = fmt.Sprintf("body %s", req.Body)
-	fmt.Println(body)
-
-	return events.APIGatewayProxyResponse{
-		Body:       string(nameGenerator),
-		StatusCode: http.StatusOK,
-	}, nil
-
+	return ginLambda.ProxyWithContext(ctx, req)
 }

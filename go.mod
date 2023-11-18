@@ -5,11 +5,11 @@ go 1.20
 require (
 	github.com/aws/aws-lambda-go v1.41.0
 	github.com/gin-gonic/gin v1.9.1
-	github.com/goombaio/namegenerator v0.0.0-20181006234301-989e774b106e
 	github.com/joho/godotenv v1.5.1
 )
 
 require (
+	github.com/awslabs/aws-lambda-go-api-proxy v0.16.0 // indirect
 	github.com/bytedance/sonic v1.9.1 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
