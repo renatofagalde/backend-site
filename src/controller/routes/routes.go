@@ -7,6 +7,6 @@ import (
 
 func InitRoutes(r *gin.RouterGroup) {
 
-	r.GET("/:id", controller.FindById)
+	r.GET("/", controller.FindById)
 	r.POST("/", controller.Create)
 }
