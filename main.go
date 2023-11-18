@@ -2,6 +2,7 @@ package main
 
 import (
 	"backend-site/src/controller/routes"
+	controller "backend-site/src/controller/site"
 	"context"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -18,7 +19,7 @@ func init() {
 	//}
 
 	router := gin.Default()
-	routes.InitRoutes(&router.RouterGroup)
+	routes.InitRoutes(&router.RouterGroup, controller.NewSiteControllerInterface())
 	ginLambda = ginadapter.New(router)
 }
 
