@@ -18,7 +18,8 @@ func handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.API
 	seed := time.Now().UTC().UnixNano()
 	nameGenerator := fmt.Sprintf("rodando pela pip 17:44 -> %s", namegenerator.NewNameGenerator(seed).Generate())
 
-	fmt.Println("console")
+	var body = fmt.Sprintf("body %s", req.Body)
+	fmt.Println(body)
 
 	return events.APIGatewayProxyResponse{
 		Body:       string(nameGenerator),

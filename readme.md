@@ -39,9 +39,8 @@ aws cloudformation package --template-file template.yaml --output-template-file 
 ```
 
 ```shell
- aws cloudformation deploy --template-file packaged.yaml --stack-name backend-site-stack --capabilities CAPABILITY_IAM
+ aws cloudformation deploy --template-file packaged.yaml --stack-name backend-site-app-stack --capabilities CAPABILITY_IAM
 ```
-
 
 ### BuildSpec
 - Use this documentation: [AWS CodeBuild](https://docs.aws.amazon.com/codebuild/latest/userguide/getting-started-create-build-spec-console.html)
@@ -177,4 +176,25 @@ artifacts:
     │   └── user_service_mock.go
     └── mongodb
         └── openconnection.go
+```
+
+# Testing project localy
+
+### Simple call
+```shell
+export GOOS=linux
+export GOARCH=amd64
+export CGO_ENABLED=0
+go mod tidy
+go build -o main main.go
+sam local invoke -e ./_miscellaneous/lambda/simple_event.json BackendSiteAppFunction
+```
+### GET Content route
+```shell
+export GOOS=linux
+export GOARCH=amd64
+export CGO_ENABLED=0
+go mod tidy
+go build -o main main.go
+sam local invoke -e ./_miscellaneous/lambda/apigateway-aws-proxy-get.json BackendSiteAppFunction
 ```
