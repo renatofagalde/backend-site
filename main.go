@@ -19,7 +19,7 @@ func init() {
 	//}
 
 	router := gin.Default()
-	routes.InitRoutes(&router.RouterGroup, controller.NewSiteControllerInterface())
+	routes.InitRoutes(&router.RouterGroup, controller.NewSiteControllerInterface("parametro"))
 	ginLambda = ginadapter.New(router)
 }
 

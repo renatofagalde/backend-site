@@ -11,6 +11,6 @@ type siteControllerInterface struct {
 	texto string
 }
 
-func NewSiteControllerInterface() SiteControllerInterface {
-	return &siteControllerInterface{texto: "Renato"}
+func NewSiteControllerInterface(texto string) SiteControllerInterface {
+	return &siteControllerInterface{texto: texto}
 }

@@ -6,8 +6,9 @@ import (
 	"net/http"
 )
 
-func (site *siteControllerInterface) Create(c *gin.Context) {
+func (siteController *siteControllerInterface) Create(c *gin.Context) {
 
 	fmt.Println("create")
-	c.JSON(http.StatusOK, "test-gin-adapter-ok")
+	var text = fmt.Sprintf("test-gin-adapter-ok  -> %s", siteController.texto)
+	c.JSON(http.StatusOK, text)
 }
