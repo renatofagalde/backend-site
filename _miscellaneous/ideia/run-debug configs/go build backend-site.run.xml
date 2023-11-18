@@ -1,0 +1,33 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="go build backend-site" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
+    <module name="backend-site" />
+    <working_directory value="$PROJECT_DIR$" />
+    <envs>
+      <env name="MYSQL_DB_URL" value="database-api-space.aivencloud.com" />
+      <env name="MYSQL_DB_PORT" value="15937" />
+      <env name="MYSQL_DB_SCHEMA" value="dev" />
+      <env name="MYSQL_DB_USER" value="avnadmin" />
+      <env name="MYSQL_DB_PASSWORD" value="AVNS_ELJc2UJaav2MRreLaYC" />
+    </envs>
+    <EXTENSION ID="net.ashald.envfile">
+      <option name="IS_ENABLED" value="true" />
+      <option name="IS_SUBST" value="false" />
+      <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+      <option name="IS_IGNORE_MISSING_FILES" value="false" />
+      <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+      <ENTRIES>
+        <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+      </ENTRIES>
+    </EXTENSION>
+    <EXTENSION ID="software.aws.toolkits.jetbrains.core.execution.GoAwsConnectionRunConfigurationExtension">
+      <option name="credential" />
+      <option name="region" />
+      <option name="useCurrentConnection" value="true" />
+    </EXTENSION>
+    <kind value="PACKAGE" />
+    <package value="backend-site" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/main.go" />
+    <method v="2" />
+  </configuration>
+</component>

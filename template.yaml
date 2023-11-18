@@ -26,7 +26,7 @@ Resources:
       CodeUri: .
       Handler: main
       Description: Call the AWS Lambda API
-      Timeout: 5
+      Timeout: 300
       # Function's execution role
       Policies:
         - AWSLambdaBasicExecutionRole
