@@ -5,8 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func InitRoutes(r *gin.RouterGroup) {
+func InitRoutes(r *gin.RouterGroup, siteController controller.SiteControllerInterface) {
 
-	r.GET("/", controller.FindById)
-	r.POST("/", controller.Create)
+	r.GET("/", siteController.FindById)
+	r.POST("/", siteController.Create)
 }
