@@ -7,7 +7,7 @@ import (
 )
 
 type SiteRepository interface {
-	CreateReposity(siteDomain model.SiteDomainInterface) (model.SiteDomainInterface, *rest_err.RestErr)
+	Create(siteDomain model.SiteDomainInterface) (model.SiteDomainInterface, *rest_err.RestErr)
 }
 
 type siteRepository struct {
@@ -15,5 +15,5 @@ type siteRepository struct {
 }
 
 func NewSiteReposiroty(database *gorm.DB) SiteRepository {
-	return &siteRepository{databaseConnection: database}
+	return &siteRepository{database}
 }
