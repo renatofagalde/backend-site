@@ -1,6 +1,7 @@
 package validation
 
 import (
+	"backend-site/src/config/rest_err"
 	"encoding/json"
 	"errors"
 	"github.com/gin-gonic/gin/binding"
@@ -8,7 +9,6 @@ import (
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
 	en_translation "github.com/go-playground/validator/v10/translations/en"
-	"golang-API/config/rest_err"
 )
 
 var (

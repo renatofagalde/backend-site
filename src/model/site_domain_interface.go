@@ -7,7 +7,7 @@ func NewSiteDomain(title string) SiteDomainInterface {
 }
 
 type SiteDomainInterface interface {
-	GetID() string
+	GetID() uint
 	GetTitle() string
 	AtribuirID(uint)
 }

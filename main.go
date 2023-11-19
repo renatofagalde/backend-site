@@ -3,7 +3,6 @@ package main
 import (
 	"backend-site/src/config/database/mysqldb"
 	"backend-site/src/controller/routes"
-	controller "backend-site/src/controller/site"
 	"context"
 	"fmt"
 	"github.com/aws/aws-lambda-go/events"
@@ -33,7 +32,7 @@ func init() {
 	siteController := initDependencies(database)
 
 	router := gin.Default()
-	routes.InitRoutes(&router.RouterGroup, controller.NewSiteControllerInterface(siteController))
+	routes.InitRoutes(&router.RouterGroup, siteController)
 	ginLambda = ginadapter.New(router)
 }
 

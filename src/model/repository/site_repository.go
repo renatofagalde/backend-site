@@ -6,14 +6,14 @@ import (
 	"gorm.io/gorm"
 )
 
+type SiteRepository interface {
+	CreateReposity(siteDomain model.SiteDomainInterface) (model.SiteDomainInterface, *rest_err.RestErr)
+}
+
 type siteRepository struct {
 	databaseConnection *gorm.DB
 }
 
-func NewSiteRepository(database *gorm.DB) SiteRepository {
+func NewSiteReposiroty(database *gorm.DB) SiteRepository {
 	return &siteRepository{databaseConnection: database}
-}
-
-type SiteRepository interface {
-	Create(siteDomain model.SiteDomainInterface) (model.SiteDomainInterface, *rest_err.RestErr)
 }

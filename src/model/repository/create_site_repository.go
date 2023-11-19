@@ -10,12 +10,12 @@ import (
 	"go.uber.org/zap"
 )
 
-func (siteRepository *siteRepository) Create(siteDomain model.SiteDomainInterface) (model.SiteDomainInterface, *rest_err.RestErr) {
+func (sr *siteRepository) Create(siteDomain model.SiteDomainInterface) (model.SiteDomainInterface, *rest_err.RestErr) {
 	logger.Info("init create site repository", zap.String("journey", "create"))
 
 	toSave := &entity.SiteEntity{Title: siteDomain.GetTitle()}
 
-	siteRepository.databaseConnection.Create(&toSave)
+	sr.databaseConnection.Create(&toSave)
 
 	logger.Info(fmt.Sprintf("site entity object %+v", toSave))
 	return converter.ConvertEntityToDomain(*toSave), nil
