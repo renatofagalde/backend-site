@@ -15,7 +15,7 @@ func (siteController *siteControllerInterface) Create(c *gin.Context) {
 	var siteRequest request.SiteRequest
 
 	if err := c.ShouldBindJSON(&siteRequest); err != nil {
-		errRest := validation.ValidateUserError(err)
+		errRest := validation.ValidateSiteError(err)
 		logger.Error("Erro ao validar site", errRest)
 		c.JSON(errRest.Code, errRest)
 		return
