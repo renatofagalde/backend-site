@@ -33,3 +33,11 @@ Resources:
         - AWSLambda_ReadOnlyAccess
         - AWSXrayWriteOnlyAccess
       Tracing: Active
+      Environment:
+        Variables:
+          Stage: !Ref Stage
+          MySQL_DB_URL: !ImportValue 'dev-MySQLSecretARN'
+          MySQL_DB_PORT: !ImportValue 'dev-MySQLSecretARN'
+          MySQL_DB_SCHEMA: !ImportValue 'dev-MySQLSecretARN'
+          MySQL_DB_USER: !ImportValue 'dev-MySQLSecretARN'
+          MySQL_DB_PASSWORD: !ImportValue 'dev-MySQLSecretARN'

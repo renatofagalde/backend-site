@@ -1,6 +1,9 @@
 package controller
 
-import "github.com/gin-gonic/gin"
+import (
+	"backend-site/src/model/service"
+	"github.com/gin-gonic/gin"
+)
 
 type SiteControllerInterface interface {
 	Create(c *gin.Context)
@@ -8,9 +11,9 @@ type SiteControllerInterface interface {
 }
 
 type siteControllerInterface struct {
-	texto string
+	service service.SiteDomainService
 }
 
-func NewSiteControllerInterface(texto string) SiteControllerInterface {
-	return &siteControllerInterface{texto: texto}
+func NewSiteControllerInterface(serviceInterface service.SiteDomainService) SiteControllerInterface {
+	return &siteControllerInterface{service: serviceInterface}
 }

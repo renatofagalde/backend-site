@@ -1,25 +1,39 @@
 package main
 
 import (
+	"backend-site/src/config/database/mysqldb"
 	"backend-site/src/controller/routes"
 	controller "backend-site/src/controller/site"
 	"context"
+	"fmt"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
+	"log"
 )
 
 var ginLambda *ginadapter.GinLambda
 
 func init() {
-	//err := godotenv.Load()
-	//if err != nil {
-	//	log.Fatal("Error loading .env file")
-	//}
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	database, err := mysqldb.NewMySQLGORMConnection(context.Background())
+	if err != nil {
+		log.Fatalf("Error ao conectar no no banco, error=%s", err.Error())
+		return
+	} else {
+		fmt.Println("conexao com sucesso")
+	}
+
+	siteController := initDependencies(database)
 
 	router := gin.Default()
-	routes.InitRoutes(&router.RouterGroup, controller.NewSiteControllerInterface("parametro"))
+	routes.InitRoutes(&router.RouterGroup, controller.NewSiteControllerInterface(siteController))
 	ginLambda = ginadapter.New(router)
 }
 
