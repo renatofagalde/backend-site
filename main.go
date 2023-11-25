@@ -1,6 +1,7 @@
 package main
 
 import (
+	secrets "backend-site/src/config/aws.secrets"
 	"backend-site/src/config/database/mysqldb"
 	"backend-site/src/controller/routes"
 	"context"
@@ -21,7 +22,13 @@ func init() {
 		log.Fatal("Error loading .env file")
 	}
 
-	database, err := mysqldb.NewMySQLGORMConnection(context.Background())
+	mysqlProperties, err := secrets.GetSecrets()
+	if err != nil {
+		log.Fatalf("Error to get secrets")
+		return
+	}
+
+	database, err := mysqldb.NewMySQLGORMConnection(context.Background(), *mysqlProperties)
 	if err != nil {
 		log.Fatalf("Error ao conectar no no banco, error=%s", err.Error())
 		return

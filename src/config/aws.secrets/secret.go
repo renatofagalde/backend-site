@@ -10,7 +10,7 @@ import (
 	"strconv"
 )
 
-func getSecrets() (*model.MySQLPropertiesInterface, error) {
+func GetSecrets() (*model.MySQLPropertiesInterface, error) {
 	// Configurar a sessão AWS
 	sess, err := session.NewSession(&aws.Config{
 		Region: aws.String("us-east-1"),
