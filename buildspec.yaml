@@ -24,7 +24,6 @@ phases:
 
   pre_build:
     commands:
-      - amazon-linux-extras enable golang1.20
       - yum clean metada
       - yum -y install golang jq
       - amplifyPush --simple
