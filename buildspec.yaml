@@ -24,10 +24,14 @@ phases:
 
   pre_build:
     commands:
+      - amazon-linux-extras enable golang1.20
+      - yum clean metada
+      - yum -y install golang jq
+      - amplifyPush --simple
       - echo setting GOXX variables 🖖
-      - GOOS=linux
-      - GOARCH=amd64
-      - CGO_ENABLED=0
+      - export GOOS=linux
+      - export GOARCH=amd64
+      - export CGO_ENABLED=0
       - echo 🚀 -> 🪣
       - go mod tidy
 
