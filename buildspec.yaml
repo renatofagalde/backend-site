@@ -19,7 +19,7 @@ phases:
       - echo "Setting GOXX variables 🖖"
       - export GOOS=linux
       - export GOARCH=amd64
-      - export CGO_ENABLED=1
+      - export CGO_ENABLED=0
       - echo "🚀 -> 🪣"
       - go mod tidy
       - go get -t ./...
