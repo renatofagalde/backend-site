@@ -12,7 +12,7 @@ Parameters:
 Globals:
   Function:
     Timeout: 30
-    MemorySize: 128
+    MemorySize: 64
     Environment:
       Variables:
         Stage: !Ref Stage
@@ -32,12 +32,38 @@ Resources:
         - AWSLambdaBasicExecutionRole
         - AWSLambda_ReadOnlyAccess
         - AWSXrayWriteOnlyAccess
+        - SecretsManagerReadPolicy
       Tracing: Active
       Environment:
         Variables:
           Stage: !Ref Stage
-#          MySQL_DB_URL: !ImportValue 'dev-MySQLSecretARN'
-#          MySQL_DB_PORT: !ImportValue 'dev-MySQLSecretARN'
-#          MySQL_DB_SCHEMA: !ImportValue 'dev-MySQLSecretARN'
-#          MySQL_DB_USER: !ImportValue 'dev-MySQLSecretARN'
-#          MySQL_DB_PASSWORD: !ImportValue 'dev-MySQLSecretARN'
+
+  SecretsManagerReadPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: SecretsManagerReadPolicy
+      Roles:
+        - !Ref BackendSiteAppFunctionRole
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - secretsmanager:GetSecretValue
+            Resource: "*"
+
+  BackendSiteAppFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub backend-site-app-${Stage}-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
