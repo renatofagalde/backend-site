@@ -15,6 +15,9 @@ phases:
       golang: 1.20
     commands:
 
+      - apt-get update
+      - apt-get install -y gcc-multilib
+
       # AWS Codebuild Go images use /go for the $GOPATH so let's copy our
       # application source code into that directory structure.
       - mkdir -p "/go/src/$(dirname ${PACKAGE})"
@@ -53,12 +56,14 @@ phases:
 
   build:
     commands:
-      # Print all environment variables (handy for AWS CodeBuild logs)
-      - env
+      - export CC=x86_64-linux-gnu-gcc
+      - export CXX=x86_64-linux-gnu-g++
+      - export GOARCH=amd64
+      - export GOOS=linux
 
       # Build our go application
-#      - go build *.go
-      - docker run -v $(pwd):/app -w /app amazonlinux:2 bash -c "yum install -y glibc-static && go build -a -ldflags '-extldflags \"-static\"' -o backend-site *.go"
+      - go build -o backend-site *.go
+
 
       # Package our application with AWS SAM
       - aws cloudformation package --template-file template.yaml --s3-bucket ${S3_BUCKET} --output-template-file packaged.yaml
