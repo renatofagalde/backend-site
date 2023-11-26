@@ -11,8 +11,8 @@ env:
 phases:
 
   install:
-#    runtime-versions:
-#      golang: 1.20
+    runtime-versions:
+      golang: 1.20
     commands:
 
       # AWS Codebuild Go images use /go for the $GOPATH so let's copy our
@@ -24,10 +24,9 @@ phases:
 
   pre_build:
     commands:
-      - amazon-linux-extras enable golang1.20
-      - yum clean metada
-      - yum -y install golang jq
-      - amplifyPush --simple
+#      - yum clean metada
+#      - yum -y install golang jq
+#      - amplifyPush --simple
       - echo setting GOXX variables 🖖
       - export GOOS=linux
       - export GOARCH=amd64
