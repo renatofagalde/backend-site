@@ -14,9 +14,7 @@ phases:
     runtime-versions:
       golang: 1.20
     commands:
-
-      - apt-get update
-      - apt-get install -y gcc-multilib
+      - yum install -y gcc-c++-x86_64-linux-gnu
 
       # AWS Codebuild Go images use /go for the $GOPATH so let's copy our
       # application source code into that directory structure.
@@ -30,10 +28,10 @@ phases:
 #      - yum clean metada
 #      - yum -y install golang jq
 #      - amplifyPush --simple
-      - echo setting GOXX variables 🖖
-      - export GOOS=linux
-      - export GOARCH=amd64
-      - export CGO_ENABLED=1
+#      - echo setting GOXX variables 🖖
+#      - export GOOS=linux
+#      - export GOARCH=amd64
+#      - export CGO_ENABLED=1
       - echo 🚀 -> 🪣
       - go mod tidy
 
@@ -63,7 +61,6 @@ phases:
 
       # Build our go application
       - go build -o backend-site *.go
-
 
       # Package our application with AWS SAM
       - aws cloudformation package --template-file template.yaml --s3-bucket ${S3_BUCKET} --output-template-file packaged.yaml
