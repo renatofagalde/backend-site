@@ -12,7 +12,7 @@ Parameters:
 Globals:
   Function:
     Timeout: 30
-    MemorySize: 64
+    MemorySize: 128
     Environment:
       Variables:
         Stage: !Ref Stage
@@ -39,11 +39,9 @@ Resources:
           Stage: !Ref Stage
 
   SecretsManagerReadPolicy:
-    Type: AWS::IAM::Policy
+    Type: AWS::IAM::ManagedPolicy
     Properties:
-      PolicyName: SecretsManagerReadPolicy
-      Roles:
-        - !Ref BackendSiteAppFunctionRole
+      ManagedPolicyName: SecretsManagerReadPolicy
       PolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -51,19 +49,3 @@ Resources:
             Action:
               - secretsmanager:GetSecretValue
             Resource: "*"
-
-  BackendSiteAppFunctionRole:
-    Type: AWS::IAM::Role
-    Properties:
-      RoleName: !Sub backend-site-app-${Stage}-role
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-                - lambda.amazonaws.com
-            Action:
-              - sts:AssumeRole
-      ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
