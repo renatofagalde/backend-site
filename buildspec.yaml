@@ -57,7 +57,8 @@ phases:
       - env
 
       # Build our go application
-      - go build *.go
+#      - go build *.go
+      - docker run -v $(pwd):/app -w /app amazonlinux:2 bash -c "yum install -y glibc-static && go build -a -ldflags '-extldflags \"-static\"' -o backend-site *.go"
 
       # Package our application with AWS SAM
       - aws cloudformation package --template-file template.yaml --s3-bucket ${S3_BUCKET} --output-template-file packaged.yaml
