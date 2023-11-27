@@ -38,7 +38,6 @@ Resources:
         Variables:
           Stage: !Ref Stage
 
-
   ReadSecretRole:
     Type: AWS::IAM::Role
     Properties:
@@ -50,17 +49,12 @@ Resources:
             Principal:
               Service: lambda.amazonaws.com
             Action: sts:AssumeRole
-      ManagedPolicyArns:
-        - !Ref ReadSecretPolicy  # Reference to the IAM managed policy
-
-  ReadSecretPolicy:
-    Type: AWS::IAM::ManagedPolicy
-    Properties:
-      PolicyName: ReadSecretPolicy
-      PolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Action:
-              - secretsmanager:GetSecretValue
-            Resource: '*'  # Replace with the specific ARN of your secret if needed
+      Policies:
+        - PolicyName: MyLambdaPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - secretsmanager:GetSecretValue
+                Resource: '*'  # Replace with the specific ARN of your secret if needed
