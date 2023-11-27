@@ -28,24 +28,39 @@ Resources:
       Description: Call the AWS Lambda API
       Timeout: 300
       # Function's execution role
+      Role: ReadSecretRole
       Policies:
         - AWSLambdaBasicExecutionRole
         - AWSLambda_ReadOnlyAccess
         - AWSXrayWriteOnlyAccess
-        - SecretsManagerReadPolicy
       Tracing: Active
       Environment:
         Variables:
           Stage: !Ref Stage
 
-  SecretsManagerReadPolicy:
+
+  ReadSecretRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: ReadSecretRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - !Ref ReadSecretPolicy  # Reference to the IAM managed policy
+
+  ReadSecretPolicy:
     Type: AWS::IAM::ManagedPolicy
     Properties:
-      ManagedPolicyName: SecretsManagerReadPolicy
+      PolicyName: ReadSecretPolicy
       PolicyDocument:
         Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Action:
               - secretsmanager:GetSecretValue
-            Resource: "*"
+            Resource: '*'  # Replace with the specific ARN of your secret if needed
