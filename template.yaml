@@ -1,3 +1,7 @@
+
+
+
+
 AWSTemplateFormatVersion: 2010-09-09
 Description: backend site in golang
 Parameters:
@@ -7,6 +11,11 @@ Parameters:
   S3BucketName:
     Type: String
     Default: br.com.likwi.artifacts.apps.backend-site-dev
+  LambdaFunctionRole:
+    Description: arn do IAM da role que sera usada para deploy da lambda
+    Type: AWS::SSM::Parameter::Value<String>
+    Default:
+
 Resources:
   BackendSiteAppFunction:
     Type: AWS::Lambda::Function
@@ -16,7 +25,7 @@ Resources:
       Handler: backend-site
       Description: Call the AWS Lambda API
       Timeout: 300
-      MemorySize: 128
+      MemorySize: 64
       Environment:
         Variables:
           Stage: !Ref Stage
