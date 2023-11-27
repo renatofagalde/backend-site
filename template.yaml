@@ -1,60 +1,26 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: >-
-  backend site in golang
-Transform:
-  - AWS::Serverless-2016-10-31
-
+Description: backend site in golang
 Parameters:
   Stage:
     Type: String
     Default: dev
-
-Globals:
-  Function:
-    Timeout: 30
-    MemorySize: 128
-    Environment:
-      Variables:
-        Stage: !Ref Stage
-
+  S3BucketName:
+    Type: String
+    Default: br.com.likwi.artifacts.apps.backend-site-dev
 Resources:
   BackendSiteAppFunction:
-    Type: AWS::Serverless::Function
+    Type: AWS::Lambda::Function
     Properties:
-      FunctionName: !Sub backend-site-app-${Stage}
+      FunctionName: backend-site-app-${Stage}
       Runtime: go1.x
-      CodeUri: .
       Handler: backend-site
       Description: Call the AWS Lambda API
       Timeout: 300
-      # Function's execution role
-      Role: ReadSecretRole
-      Policies:
-        - AWSLambdaBasicExecutionRole
-        - AWSLambda_ReadOnlyAccess
-        - AWSXrayWriteOnlyAccess
-      Tracing: Active
+      MemorySize: 128
       Environment:
         Variables:
           Stage: !Ref Stage
-
-  ReadSecretRole:
-    Type: AWS::IAM::Role
-    Properties:
-      RoleName: ReadSecretRole
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: lambda.amazonaws.com
-            Action: sts:AssumeRole
-      Policies:
-        - PolicyName: MyLambdaPolicy
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - secretsmanager:GetSecretValue
-                Resource: '*'  # Replace with the specific ARN of your secret if needed
+      Code:
+        S3Bucket: !Ref S3BucketName
+        S3Key: backend-site.zip
+      Role: arn:aws:iam::012821307542:role/codecommit-api-role
