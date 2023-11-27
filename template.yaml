@@ -10,7 +10,7 @@ Parameters:
   LambdaFunctionRole:
     Description: arn do IAM da role que sera usada para deploy da lambda
     Type: AWS::SSM::Parameter::Value<String>
-    Default:
+    Default: teste
 
 Resources:
   BackendSiteAppFunction:
@@ -28,7 +28,8 @@ Resources:
       Code:
         S3Bucket: !Ref S3BucketName
         S3Key: backend-site.zip
-      Role: !GetAtt LambdaExecutionRole.Arn
+      Role: !Ref LambdaFunctionRole  # Update to reference the LambdaFunctionRole parameter
+
   LambdaExecutionRole:
     Type: AWS::IAM::Role
     Properties:
@@ -41,24 +42,6 @@ Resources:
               Service: lambda.amazonaws.com
             Action: sts:AssumeRole
       Policies:
-#        - PolicyName: RDSAccessPolicy
-#          PolicyDocument:
-#            Version: '2012-10-17'
-#            Statement:
-#              - Effect: Allow
-#                Action:
-#                  - rds-db:connect
-#                Resource: "arn:aws:rds-db:REGION:012821307542:dbuser/DB_INSTANCE_NAME/DB_USERNAME"
-#        - PolicyName: SQSAccessPolicy
-#          PolicyDocument:
-#            Version: '2012-10-17'
-#            Statement:
-#              - Effect: Allow
-#                Action:
-#                  - sqs:SendMessage
-#                  - sqs:ReceiveMessage
-#                  - sqs:DeleteMessage
-#                Resource: "arn:aws:sqs:REGION:ACCOUNT_ID:QUEUE_NAME"
         - PolicyName: SecretsManagerAccessPolicy
           PolicyDocument:
             Version: '2012-10-17'
