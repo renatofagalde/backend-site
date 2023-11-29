@@ -15,7 +15,7 @@ Resources:
       FunctionName: !Sub "backend-site-app-${Stage}"
       Runtime: go1.x
       Handler: backend-site
-      Description: Call the AWS Lambda API
+      Description: site backend
       Timeout: 300
       MemorySize: 128
       Environment:
