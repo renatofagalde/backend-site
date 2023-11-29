@@ -17,7 +17,7 @@ Resources:
       Handler: backend-site
       Description: Call the AWS Lambda API
       Timeout: 300
-      MemorySize: 64
+      MemorySize: 128
       Environment:
         Variables:
           Stage: !Ref Stage
