@@ -24,7 +24,8 @@ Resources:
       Code:
         S3Bucket: !Ref S3BucketName
         S3Key: backend-site.zip
-      Role: !GetAtt LambdaExecutionRole.Arn
+      Role: LambdaExecutionRole
+    DependsOn: LambdaExecutionRole
 
   LambdaExecutionRole:
     Type: AWS::IAM::Role
