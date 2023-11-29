@@ -25,7 +25,7 @@ Resources:
         S3Bucket: !Ref S3BucketName
         S3Key: backend-site.zip
       Role: !GetAtt LambdaExecutionRole.Arn
-    DependsOn: [LambdaExecutionRole, SiteLogGroup]
+    DependsOn: [SiteLogGroup,LambdaExecutionRole]
 
   LambdaExecutionRole:
     Type: AWS::IAM::Role
