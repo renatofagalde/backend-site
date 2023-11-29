@@ -12,7 +12,7 @@ Resources:
   BackendSiteAppFunction:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: !Sub backend-site-app-${Stage}
+      FunctionName: !Sub "backend-site-app-${Stage}"
       Runtime: go1.x
       Handler: backend-site
       Description: Call the AWS Lambda API
