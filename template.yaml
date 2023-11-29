@@ -25,7 +25,7 @@ Resources:
         S3Bucket: !Ref S3BucketName
         S3Key: backend-site.zip
       Role: !GetAtt LambdaExecutionRole.Arn
-    DependsOn: LambdaExecutionRole
+    DependsOn: [LambdaExecutionRole, SiteLogGroup]
 
   LambdaExecutionRole:
     Type: AWS::IAM::Role
@@ -47,3 +47,9 @@ Resources:
                 Action:
                   - secretsmanager:GetSecretValue
                 Resource: "arn:aws:secretsmanager:us-east-1:012821307542:secret:dev/mysql/api-jNAmkR"
+
+  SiteLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: "/api/lambda/backendsite"
+      RetentionDays: 3
