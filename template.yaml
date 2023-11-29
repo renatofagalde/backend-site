@@ -52,4 +52,4 @@ Resources:
     Type: AWS::Logs::LogGroup
     Properties:
       LogGroupName: "/api/lambda/backendsite"
-      RetentionDays: 3
+      RetentionInDays: 3
