@@ -10,18 +10,17 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 	"log"
 )
 
 var ginLambda *ginadapter.GinLambda
 
 func init() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
+	/*	err := godotenv.Load()
+		if err != nil {
+			log.Fatal("Error loading .env file")
+		}
+	*/
 	mysqlProperties, err := secrets.GetSecrets()
 	if err != nil {
 		log.Fatalf("Error to get secrets")
