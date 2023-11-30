@@ -28,8 +28,10 @@ phases:
 
   build:
     commands:
-      - env
+      - echo "🚀 -> 🪣"
       - go build -o backend-site *.go
+      - zip backend-site.zip backend-site
+      - aws s3 cp backend-site.zip s3://br.com.likwi.artifacts.apps.backend-site-dev
 
       # Package the application with AWS SAM
       - aws cloudformation package --template-file template.yaml --s3-bucket ${S3_BUCKET} --output-template-file packaged.yaml
