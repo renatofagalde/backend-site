@@ -14,7 +14,7 @@ Resources:
     Properties:
       FunctionName: !Sub "backend-site-app-${Stage}"
       Runtime: go1.x
-      Handler: backend-site
+      Handler: main
       Description: site backend
       Timeout: 300
       MemorySize: 128
@@ -23,7 +23,7 @@ Resources:
           Stage: !Ref Stage
       Code:
         S3Bucket: !Ref S3BucketName
-        S3Key: backend-site.zip
+        S3Key: main.zip
       Role: !GetAtt LambdaExecutionRole.Arn
     DependsOn: [SiteLogGroup,LambdaExecutionRole]
 
