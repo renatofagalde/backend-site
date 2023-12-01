@@ -24,7 +24,7 @@ Resources:
       FunctionName: !Ref AWS::StackName
       Runtime: go1.x
       CodeUri: .
-      Handler: main
+      Handler: backend-site
       Description: Call the AWS Lambda API
       Timeout: 5
       # Function's execution role
