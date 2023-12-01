@@ -1,55 +1,44 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: backend site in golang
+Description: >-
+  backend-site
+Transform:
+  - AWS::Serverless-2016-10-31
+
 Parameters:
   Stage:
     Type: String
     Default: dev
-  S3BucketName:
-    Type: String
-    Default: br.com.likwi.artifacts.apps.backend-site-dev
+
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 128
+    Environment:
+      Variables:
+        Stage: !Ref Stage
 
 Resources:
-  BackendSiteAppFunction:
-    Type: AWS::Lambda::Function
+  BackendSite:
+    Type: AWS::Serverless::Function
     Properties:
-      FunctionName: !Sub "backend-site-app-${Stage}"
+      FunctionName: !Ref AWS::StackName
       Runtime: go1.x
-      Handler: backend-site
-      Description: site backend
-      Timeout: 300
-      MemorySize: 128
-      Environment:
-        Variables:
-          Stage: !Ref Stage
-      Code:
-        S3Bucket: !Ref S3BucketName
-        S3Key: backend-site.zip
-      Role: !GetAtt LambdaExecutionRole.Arn
-    DependsOn: [SiteLogGroup,LambdaExecutionRole]
-
-  LambdaExecutionRole:
-    Type: AWS::IAM::Role
-    Properties:
-      RoleName: LambdaExecutionRole
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: lambda.amazonaws.com
-            Action: sts:AssumeRole
+      CodeUri: .
+      Handler: main
+      Description: Call the AWS Lambda API
+      Timeout: 5
+      # Function's execution role
       Policies:
-        - PolicyName: SecretsManagerAccessPolicy
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - secretsmanager:GetSecretValue
-                Resource: "arn:aws:secretsmanager:us-east-1:012821307542:secret:dev/mysql/api-jNAmkR"
+        - AWSLambdaBasicExecutionRole
+        - AWSLambda_ReadOnlyAccess
+        - AWSXrayWriteOnlyAccess
+      Tracing: Active
 
-  SiteLogGroup:
-    Type: AWS::Logs::LogGroup
-    Properties:
-      LogGroupName: "/api/lambda/backendsite"
-      RetentionInDays: 3
+
+Outputs:
+  BackendSiteFunction:
+    Description: First Lambda Function ARN
+    Value: !GetAtt BackendSite.Arn
+  BackendSiteFunctionFunctionIamRole:
+    Description: Implicit IAM Role created for Hello World function
+    Value: !GetAtt BackendSite.Arn
