@@ -35,12 +35,12 @@ Resources:
       Tracing: Active
       # Log Group Configuration
 
-  # Log Group Configuration
-  BackendSiteLogGroup:
-    Type: AWS::Logs::LogGroup
-    Properties:
-      LogGroupName: !Sub "/aws/lambda/${BackendSite}"  # Adjust as needed
-      RetentionInDays: 3
+#  # Log Group Configuration
+#  BackendSiteLogGroup:
+#    Type: AWS::Logs::LogGroup
+#    Properties:
+#      LogGroupName: !Sub "/aws/lambda/${BackendSite}"  # Adjust as needed
+#      RetentionInDays: 3
 
 
 #  # New policy for Secrets Manager read access

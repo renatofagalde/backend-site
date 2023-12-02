@@ -39,7 +39,7 @@ aws cloudformation package --template-file template.yaml --output-template-file 
 ```
 
 ```shell
- aws cloudformation deploy --template-file packaged.yaml --stack-name backend-site-app-stack --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
+ aws cloudformation deploy --template-file packaged.yaml --stack-name backend-site-dev-stack --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
 ```
 
 ### BuildSpec
