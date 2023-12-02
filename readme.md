@@ -39,7 +39,7 @@ aws cloudformation package --template-file template.yaml --output-template-file 
 ```
 
 ```shell
- aws cloudformation deploy --template-file packaged.yaml --stack-name backend-site-app-stack --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
+ aws cloudformation deploy --template-file packaged.yaml --stack-name backend-site-dev-stack --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
 ```
 
 ### BuildSpec
@@ -178,6 +178,7 @@ artifacts:
         └── openconnection.go
 ```
 
+
 # Testing project localy
 
 ### Simple call
@@ -198,3 +199,5 @@ go mod tidy
 go build -o main main.go
 sam local invoke -e ./_miscellaneous/lambda/apigateway-aws-proxy-get.json BackendSiteAppFunction
 ```
+
+[Commits](https://github.com/iuricode/padroes-de-commits)
