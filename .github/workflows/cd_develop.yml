@@ -1,6 +1,8 @@
 name: Upload Go test results
 
-on: [develop]
+on:
+  push:
+    branches: [ develop ]
 
 jobs:
   build:
@@ -31,7 +33,7 @@ jobs:
         with:
           status: ${{ job.status }}
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
-          text: 'CICD ongoing... :eyes:'
+          text: 'CICD DEVELOP ongoing... :eyes:'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
