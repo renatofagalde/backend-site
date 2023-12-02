@@ -25,15 +25,29 @@ Resources:
       Runtime: go1.x
       CodeUri: .
       Handler: backend-site
-      Description: Call the AWS Lambda API
+      Description: Suport all websites
       Timeout: 50
       # Function's execution role
       Policies:
         - AWSLambdaBasicExecutionRole
         - AWSLambda_ReadOnlyAccess
         - AWSXrayWriteOnlyAccess
+        - SecretsManagerReadPolicy
       Tracing: Active
 
+  # New policy for Secrets Manager read access
+  SecretsManagerReadPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: SecretsManagerReadPolicy
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - secretsmanager:GetSecretValue
+            Resource:
+              - arn:aws:secretsmanager:us-east-1:012821307542:secret:dev/mysql/api-jNAmkR
 
 Outputs:
   BackendSiteFunction:
