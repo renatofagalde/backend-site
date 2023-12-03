@@ -23,7 +23,13 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
-      - run: export GOOS=linux && export CGO_ENABLED=0 && export AWS_ACCESS_KEY_ID=${{ secrets.ACCESS_KEY }} && export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} && export AWS_DEFAULT_REGION='us-east-1' && sam build && sam deploy
+      - name: SAM Build
+        run: |
+          sam build
+      - name: SAM Deploy
+        run: |
+          sam deploy
+#      - run: export GOOS=linux && export CGO_ENABLED=0 && export AWS_ACCESS_KEY_ID=${{ secrets.ACCESS_KEY }} && export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} && export AWS_DEFAULT_REGION='us-east-1' && sam build && sam deploy
 #
 #
 #
