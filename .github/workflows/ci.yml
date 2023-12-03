@@ -42,4 +42,6 @@ jobs:
           delete_branch: true
           github_token: ${{ secrets.X_GITHUB_TOKEN }}
           pr_label: "feature, automated pr"
-          pr_title: ${{ github.event.head_commit.message }} to develop
+          pr_title: "${{ github.event.head_commit.message }} to develop"
+          pr_body: "👑 *An automated PR*"
+          pr_reviewer: "Renato Fagalde"
