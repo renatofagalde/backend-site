@@ -34,11 +34,29 @@ jobs:
           text: '🖖Validate project'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      - name: pull-request
-        if: success()
-        uses: repo-sync/pull-request@v2
-        with:
-          destination_branch: "develop"
-          github_token: ${{ secrets.X_GITHUB_TOKEN }}
-          pr_label: "feature, automated pr"
-          pr_title: "[🚀] to develop"
+#      - name: Run the Action
+#        if: startsWith(github.ref, 'refs/heads/feature')
+#        uses: devops-infra/action-pull-request@v0.5.5
+#        with:
+#          target_branch: develop
+#          github_token: ${{ secrets.X_GITHUB_TOKEN }}
+#          title: ${{ github.event.commits[0].message }}
+#          assignee: ${{ github.actor }}
+#          label: automatic,feature
+#          template: .github/PULL_REQUEST_TEMPLATE/FEATURE.md
+#          old_string: "**Write you description here**"
+#          new_string: ${{ github.event.commits[0].message }}
+#          get_diff: true
+#      - name: pull-request
+#        if: success()
+#        uses: actions/checkout@v2
+#          - name: open-pr
+#          uses: repo-sync/pull-request@v2
+#          with:
+#            destination_branch: "develop"
+#            delete_branch: true
+#            github_token: ${{ secrets.X_GITHUB_TOKEN }}
+#            pr_label: "feature, automated pr"
+#            pr_title: "${{ github.event.head_commit.message }} to develop"
+#            pr_body: "👑 *An automated PR*"
+#            pr_reviewer: "Renato Fagalde"
