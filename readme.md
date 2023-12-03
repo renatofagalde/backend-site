@@ -38,8 +38,9 @@ aws s3 cp backend-site.zip s3://br.com.likwi.artifacts.apps.backend-site-dev
 aws cloudformation package --template-file template.yaml --output-template-file packaged.yaml --s3-bucket br.com.likwi.artifacts.apps.backend-site-dev
 ```
 
+[//]: # (aws cloudformation deploy --template-file packaged.yaml --stack-name backend-site-dev-stack --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM)
 ```shell
-aws cloudformation deploy --template-file packaged.yaml --stack-name backend-site-dev-stack --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
+aws cloudformation deploy --template-file packaged.yaml --stack-name backend-site-dev-stack --capabilities CAPABILITY_IAM
 ```
 
 ### BuildSpec
