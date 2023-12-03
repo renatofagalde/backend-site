@@ -3,6 +3,7 @@ package controller
 import (
 	"backend-site/src/config/logger"
 	"backend-site/src/view"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"net/http"
@@ -20,6 +21,7 @@ func (siteController *siteControllerInterface) FindById(c *gin.Context) {
 		logger.Error(message, err)
 		return
 	}
-	logger.Info("init FindUserByID find_controller successfuly")
-	c.JSON(http.StatusOK, view.ConvertDomainToResponse(siteDomain))
+	result := view.ConvertDomainToResponse(siteDomain)
+	logger.Info(fmt.Sprintf("init FindUserByID find_controller successfuly %+v", result), zap.String("journey", "findByID"))
+	c.JSON(http.StatusOK, result)
 }
