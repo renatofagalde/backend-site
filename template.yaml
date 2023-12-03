@@ -17,6 +17,7 @@ Globals:
       Variables:
         Stage: !Ref Stage
 
+
 Resources:
   BackendSite:
     Type: AWS::Serverless::Function

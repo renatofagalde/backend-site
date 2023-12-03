@@ -51,7 +51,7 @@ jobs:
           export CGO_ENABLED=0 && sam build
       - name: SAM Deploy
         run: |
-          sam deploy  --capabilities=['CAPABILITY_IAM', 'CAPABILITY_NAMED_IAM']
+          sam deploy --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
       - name: notify progress
         if: always()
         uses: 8398a7/action-slack@v3
