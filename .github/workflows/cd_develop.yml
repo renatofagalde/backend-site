@@ -31,8 +31,10 @@ jobs:
         with:
           name: Go-results-${{ matrix.go-version }}
           path: TestResults-${{ matrix.go-version }}.json
+      - name: diretorio
+        run: pwd
       - name: Build GO
-        run: go build -o $(pwd)/backend-site main.go
+        run: go build
       - name: notify progress
         if: always()
         uses: 8398a7/action-slack@v3
