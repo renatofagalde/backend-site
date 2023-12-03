@@ -46,6 +46,10 @@ deletar a stack
 ```shell
 aws cloudformation delete-stack --stack-name backend-site-stack-dev
 ```
+local test FindByID
+```shell
+export CGO_ENABLED=0 && sam build && sam local invoke -e ./_miscellaneous/lambda/apigateway-aws-proxy-get.json BackendSite
+```
 
 ### BuildSpec
 - Use this documentation: [AWS CodeBuild](https://docs.aws.amazon.com/codebuild/latest/userguide/getting-started-create-build-spec-console.html)

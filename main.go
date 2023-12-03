@@ -18,12 +18,6 @@ var ginLambda *ginadapter.GinLambda
 func init() {
 
 	log.Println("Initialize lambda")
-
-	/*	err := godotenv.Load()
-		if err != nil {
-			log.Fatal("Error loading .env file")
-		}
-	*/
 	mysqlProperties, err := secrets.GetSecrets()
 	if err != nil {
 		log.Fatalf("Error to get secrets")
