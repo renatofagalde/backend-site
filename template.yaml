@@ -32,22 +32,22 @@ Resources:
         - AWSLambdaBasicExecutionRole
         - AWSLambda_ReadOnlyAccess
         - AWSXrayWriteOnlyAccess
-#        - SecretsManagerReadPolicy
+        - SecretsManagerReadPolicy
       Tracing: Active
 
   # New policy for Secrets Manager read access
-#  SecretsManagerReadPolicy:
-#    Type: AWS::IAM::ManagedPolicy
-#    Properties:
-#      ManagedPolicyName: SecretsManagerReadPolicy
-#      PolicyDocument:
-#        Version: "2012-10-17"
-#        Statement:
-#          - Effect: Allow
-#            Action:
-#              - secretsmanager:GetSecretValue
-#            Resource:
-#              - arn:aws:secretsmanager:us-east-1:012821307542:secret:dev/mysql/api-jNAmkR
+  SecretsManagerReadPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: SecretsManagerReadPolicy
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - secretsmanager:GetSecretValue
+            Resource:
+              - arn:aws:secretsmanager:us-east-1:012821307542:secret:dev/mysql/api-jNAmkR
 
 Outputs:
   BackendSiteFunction:
