@@ -24,7 +24,7 @@
     <sam>
       <option name="additionalBuildArgs" value="" />
       <option name="additionalLocalArgs" value="" />
-      <option name="buildInContainer" value="true" />
+      <option name="buildInContainer" value="false" />
       <option name="dockerNetwork" value="" />
       <option name="skipImagePull" value="false" />
     </sam>
