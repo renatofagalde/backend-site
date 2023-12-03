@@ -8,6 +8,7 @@ import (
 
 type SiteRepository interface {
 	Create(siteDomain model.SiteDomainInterface) (model.SiteDomainInterface, *rest_err.RestErr)
+	FindByID(id string) (model.SiteDomainInterface, *rest_err.RestErr)
 }
 
 type siteRepository struct {

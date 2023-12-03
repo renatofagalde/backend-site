@@ -10,6 +10,7 @@ import (
 
 func initDependencies(database *gorm.DB) controller.SiteControllerInterface {
 	logger.Info("initialize dependencies")
+
 	r := repository.NewSiteReposiroty(database)
 	siteDomainService := service.NewSiteDomainService(r)
 	return controller.NewSiteControllerInterface(siteDomainService)
