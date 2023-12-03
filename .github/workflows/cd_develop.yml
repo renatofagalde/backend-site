@@ -68,7 +68,7 @@ jobs:
 #          echo AWS_DEFAULT_REGION=${{ secrets.AWS_DEFAULT_REGION }} >> ~/.aws/credential
 #          tail -n 100000 ~/.aws/credential
       - name: Create package
-        run: aws cloudformation package --template-file template.yaml --output-template-file packaged.yaml --s3-bucket br.com.likwi.artifacts.apps.backend-site-dev
+        run: export GOOS=linux && export CGO_ENABLED=0 && sam build && sam deploy
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
