@@ -23,7 +23,6 @@ Resources:
     Properties:
       FunctionName: backend-site-dev
       Runtime: go1.x
-      CodeUri: .
       Handler: backend-site
       Description: Suport all websites
       Timeout: 50
