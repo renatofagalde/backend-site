@@ -41,15 +41,22 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-      - name: "Create AWS Credentials"
-        run: |
-          mkdir ~/.aws
-          touch ~/.aws/credential
-          echo [default] > ~/.aws/credential
-          echo AWS_ACCESS_KEY_ID=${{ secrets.ACCESS_KEY }} > ~/.aws/credential 
-          echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> ~/.aws/credential
-          echo AWS_DEFAULT_REGION=${{ secrets.AWS_DEFAULT_REGION }} >> ~/.aws/credential
-          tail -n 100000 ~/.aws/credential
+      - name: "Configure AWS Credentials" Action for GitHub Actions
+        uses: aws-actions/configure-aws-credentials@v4.0.1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: 'us-east-1'
+
+#      - name: "Create AWS Credentials"
+#        run: |
+#          mkdir ~/.aws
+#          touch ~/.aws/credential
+#          echo [default] > ~/.aws/credential
+#          echo AWS_ACCESS_KEY_ID=${{ secrets.ACCESS_KEY }} > ~/.aws/credential
+#          echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> ~/.aws/credential
+#          echo AWS_DEFAULT_REGION=${{ secrets.AWS_DEFAULT_REGION }} >> ~/.aws/credential
+#          tail -n 100000 ~/.aws/credential
 
       - name: Create package
         run: aws cloudformation package --template-file template.yaml --output-template-file packaged.yaml --s3-bucket br.com.likwi.artifacts.apps.backend-site-dev
