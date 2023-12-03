@@ -1,11 +1,6 @@
 name: Upload Go test results
 
-on:
-  pull_request:
-    branches:
-      - feature*
-      - fix*
-      - bug*
+on: [push]
 
 jobs:
   build:
