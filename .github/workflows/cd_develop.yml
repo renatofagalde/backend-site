@@ -28,6 +28,8 @@ jobs:
           sam build
       - name: SAM Deploy
         run: |
+          export CGO_ENABLED=0
+          export GOOS=linux
           sam deploy
 #      - run: export GOOS=linux && export CGO_ENABLED=0 && export AWS_ACCESS_KEY_ID=${{ secrets.ACCESS_KEY }} && export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} && export AWS_DEFAULT_REGION='us-east-1' && sam build && sam deploy
 #
@@ -85,10 +87,10 @@ jobs:
 #      - name: Create package
 #        run: export GOOS=linux && export CGO_ENABLED=0 && export AWS_ACCESS_KEY_ID=${{ secrets.ACCESS_KEY }} && export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} && export AWS_DEFAULT_REGION='us-east-1' && sam build && sam deploy
 #
-#      - name: notify progress
-#        if: always()
-#        uses: appleboy/discord-action@master
-#        with:
-#          webhook_id: ${{ secrets.WEBHOOK_ID }}
-#          webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
-#          message: "The deploy environment staging executed ${{ job.status }}"
+      - name: notify progress
+        if: always()
+        uses: appleboy/discord-action@master
+        with:
+          webhook_id: ${{ secrets.WEBHOOK_ID }}
+          webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
+          message: "The deploy environment staging executed ${{ job.status }}"
