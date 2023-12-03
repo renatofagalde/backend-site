@@ -1,21 +1,8 @@
 {
-  "body": "eyJ0ZXN0IjoiYm9keSJ9",
   "resource": "/{proxy+}",
-  "path": "/site/xxx/content",
+  "path": "/",
   "httpMethod": "GET",
   "isBase64Encoded": true,
-  "queryStringParameters": {
-    "page": "0",
-    "size": "10"
-  },
-  "multiValueQueryStringParameters": {
-    "foo": [
-      "bar"
-    ]
-  },
-  "pathParameters": {
-    "proxy": "/path/to/resource"
-  },
   "stageVariables": {
     "baz": "qux"
   },

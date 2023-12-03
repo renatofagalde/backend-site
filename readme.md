@@ -42,6 +42,10 @@ aws cloudformation package --template-file template.yaml --output-template-file 
 ```shell
 aws cloudformation deploy --template-file packaged.yaml --stack-name backend-site-dev-stack --capabilities CAPABILITY_IAM
 ```
+deletar a stack
+```shell
+aws cloudformation delete-stack --stack-name backend-site-stack-dev
+```
 
 ### BuildSpec
 - Use this documentation: [AWS CodeBuild](https://docs.aws.amazon.com/codebuild/latest/userguide/getting-started-create-build-spec-console.html)

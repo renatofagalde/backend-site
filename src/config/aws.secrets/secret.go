@@ -47,14 +47,13 @@ func GetSecrets() (*model.MySQLPropertiesInterface, error) {
 		fmt.Printf("Erro ao analisar a secret JSON: %v\n", err)
 		return nil, err
 	}
-
 	port, _ := strconv.ParseUint(secretMap["port"].(string), 10, 64)
 
 	var mysqlProperties = model.NewMySQLProperties(
 		secretMap["host"].(string),
 		port,
 		secretMap["dbname"].(string),
-		secretMap["user"].(string),
+		secretMap["username"].(string),
 		secretMap["password"].(string))
 	return &mysqlProperties, nil
 }
