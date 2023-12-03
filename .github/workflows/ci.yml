@@ -39,6 +39,7 @@ jobs:
         uses: repo-sync/pull-request@v2
         with:
           destination_branch: "develop"
+          delete_branch: true
           github_token: ${{ secrets.X_GITHUB_TOKEN }}
           pr_label: "feature, automated pr"
-          pr_title: "${{ github.event.head_commit.message }} to develop "
+          pr_title: ${{ github.event.head_commit.message }} to develop
