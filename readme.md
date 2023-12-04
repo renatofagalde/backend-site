@@ -46,7 +46,7 @@ deletar a stack
 ```shell
 aws cloudformation delete-stack --stack-name backend-site-stack-dev
 ```
-local test FindByID
+local test FindByID 
 ```shell
 export CGO_ENABLED=0 && sam build && sam local invoke -e ./_miscellaneous/lambda/apigateway-aws-proxy-get.json BackendSite
 ```
