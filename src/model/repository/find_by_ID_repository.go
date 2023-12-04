@@ -14,7 +14,12 @@ func (siteRepository *siteRepository) FindByID(id string) (model.SiteDomainInter
 
 	var siteEntity entity.SiteEntity
 
-	siteRepository.databaseConnection.Where("tenent_id =?", id).First(&siteEntity)
+	err := siteRepository.databaseConnection.Where("tenent_id =?", id).First(&siteEntity).Error
+	if err != nil {
+		errorMessage := fmt.Sprintf("Site not found with this ID: %s", id)
+		logger.Error(fmt.Sprintf("repository.FindById ->  %s", errorMessage), err, zap.String("journey", "findByID"))
+		return nil, rest_err.NewNotFoundError(errorMessage)
+	}
 
 	logger.Info(
 		fmt.Sprintf("repository.FindById ->  %+v", siteEntity), zap.String("journey", "findByID"))
