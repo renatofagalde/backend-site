@@ -35,10 +35,12 @@ Resources:
         - AWSLambda_ReadOnlyAccess
         - AWSXrayWriteOnlyAccess
       Tracing: Active
-      # Configuração do CloudWatch Logs
-      LogGroupName: /aws/lambda/dev/backend-site-dev
-      LogStreamName: { "Fn::Join": [ "", [ "/aws/lambda/backend-site-dev", { "Ref": "AWS::StackName" } ] ] }
-      LogRetentionInDays: 7  # Define o tempo de retenção dos logs no CloudWatch
+  # Configuração do CloudWatch Logs
+  Logs:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /api/dev/backend-site-dev
+      RetentionInDays: 2  # Define o tempo de retenção dos logs no CloudWatch
 
   IAMRole:
     Type: "AWS::IAM::Role"
