@@ -21,13 +21,11 @@ Resources:
       CodeUri: .
       Handler: backend-site
       Runtime: go1.x
-#      Architectures:
-#        - x86_64
       Events:
         CatchAll:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /site/{site_id}
+            Path: /site/{id}
             Method: GET
 
   ApplicationResourceGroup:
@@ -49,7 +47,7 @@ Outputs:
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
   BackendSiteAPI:
     Description: API Gateway endpoint URL for Prod environment for First Function
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/dev/site/"
   BackendSiteFunction:
     Description: First Lambda Function ARN
     Value: !GetAtt BackendSiteFunction.Arn
