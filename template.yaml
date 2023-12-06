@@ -1,84 +1,58 @@
-AWSTemplateFormatVersion: 2010-09-09
-Description: >-
-  backend-site 39
-Transform:
-  - AWS::Serverless-2016-10-31
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  backend-site-app
 
-Parameters:
-  Stage:
-    Type: String
-    Default: dev
+  Sample SAM Template for backend-site-app
 
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
-    Timeout: 30
+    Timeout: 5
     MemorySize: 128
-    Environment:
-      Variables:
-        Stage: !Ref Stage
 
-
+    Tracing: Active
+  Api:
+    TracingEnabled: true
 Resources:
-  BackendSite:
-    Type: AWS::Serverless::Function
+  BackendSiteFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      FunctionName: backend-site-dev
-      Runtime: go1.x
       CodeUri: .
       Handler: backend-site
-      Description: Suport all websites
-      Timeout: 50
-      Role: !GetAtt IAMRole.Arn
-      # Function's execution role
-      Policies:
-        - AWSLambdaBasicExecutionRole
-        - AWSLambda_ReadOnlyAccess
-        - AWSXrayWriteOnlyAccess
-      Tracing: Active
-  # Configuração do CloudWatch Logs
-  Logs:
-    Type: AWS::Logs::LogGroup
-    Properties:
-      LogGroupName: /api/dev/backend-site-dev
-      RetentionInDays: 2  # Define o tempo de retenção dos logs no CloudWatch
+      Runtime: go1.x
+#      Architectures:
+#        - x86_64
+      Events:
+        CatchAll:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /site/{site_id}
+            Method: GET
 
-  IAMRole:
-    Type: "AWS::IAM::Role"
+  ApplicationResourceGroup:
+    Type: AWS::ResourceGroups::Group
     Properties:
-      Path: "/"
-      RoleName: "Lambdapermissions"
-      AssumeRolePolicyDocument: "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"lambda.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}"
-      ManagedPolicyArns:
-        - !Ref IAMManagedPolicy
-      Description: "Allows Lambda functions to call AWS services on your behalf."
-
-  IAMManagedPolicy:
-    Type: "AWS::IAM::ManagedPolicy"
+      Name:
+        Fn::Sub: ApplicationInsights-SAM-${AWS::StackName}
+      ResourceQuery:
+        Type: CLOUDFORMATION_STACK_1_0
+  ApplicationInsightsMonitoring:
+    Type: AWS::ApplicationInsights::Application
     Properties:
-      ManagedPolicyName: "LambdaSecretsPolicy"
-      Path: "/"
-      PolicyDocument: |
-        {
-            "Version": "2012-10-17",
-            "Statement": [
-                {
-                    "Sid": "Statement1",
-                    "Effect": "Allow",
-                    "Action": [
-                        "secretsmanager:GetSecretValue",
-                        "ec2:CreateNetworkInterface",
-                        "ec2:DescribeNetworkInterfaces",
-                        "ec2:DeleteNetworkInterface"
-                    ],
-                    "Resource": "*"
-                }
-            ]
-        }
-
+      ResourceGroupName:
+        Ref: ApplicationResourceGroup
+      AutoConfigurationEnabled: 'true'
 Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  BackendSiteAPI:
+    Description: API Gateway endpoint URL for Prod environment for First Function
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
   BackendSiteFunction:
     Description: First Lambda Function ARN
-    Value: !GetAtt BackendSite.Arn
-  BackendSiteFunctionFunctionIamRole:
+    Value: !GetAtt BackendSiteFunction.Arn
+  BackendSiteFunctionIamRole:
     Description: Implicit IAM Role created for Hello World function
-    Value: !GetAtt BackendSite.Arn
+    Value: !GetAtt BackendSiteFunctionRole.Arn
