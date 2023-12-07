@@ -27,6 +27,37 @@ Resources:
           Properties:
             Path: /site/{id}
             Method: GET
+  IAMRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      Path: "/"
+      RoleName: "Lambdapermissions"
+      AssumeRolePolicyDocument: "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"lambda.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}"
+      ManagedPolicyArns:
+        - !Ref IAMManagedPolicy
+      Description: "Allows Lambda functions to call AWS services on your behalf."
+  IAMManagedPolicy:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      ManagedPolicyName: "LambdaSecretsPolicy"
+      Path: "/"
+      PolicyDocument: |
+        {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Sid": "Statement1",
+                    "Effect": "Allow",
+                    "Action": [
+                        "secretsmanager:GetSecretValue",
+                        "ec2:CreateNetworkInterface",
+                        "ec2:DescribeNetworkInterfaces",
+                        "ec2:DeleteNetworkInterface"
+                    ],
+                    "Resource": "*"
+                }
+            ]
+        }
 
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
