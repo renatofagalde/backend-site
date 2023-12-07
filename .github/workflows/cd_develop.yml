@@ -5,8 +5,9 @@ on:
     branches: [ develop ]
 
 jobs:
+  name: CICD
   build:
-
+    name: levantando ubuntu para compilacao
     runs-on: ubuntu-latest
     strategy:
       matrix:
