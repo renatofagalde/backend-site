@@ -345,3 +345,4 @@ pyrightconfig.json
 .sonarlint/
 
 # End of https://www.toptal.com/developers/gitignore/api/go,intellij+all,java,python,sonar,sonarqube,maven
+/.aws-sam/
