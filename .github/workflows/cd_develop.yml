@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: levantando ubuntu para compilacao
+    name: Build & Deploy
     runs-on: ubuntu-latest
     strategy:
       matrix:
