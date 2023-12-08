@@ -13,8 +13,7 @@ Globals:
     Environment:
       Variables:
         Stage: dev  # Change this to your desired default stage
-    Tracing:
-      Mode: Active  # Change this to your desired tracing mode
+    Tracing: Active
   Api:
     TracingEnabled: true
 Resources:
