@@ -13,7 +13,8 @@ Globals:
     Environment:
       Variables:
         Stage: dev  # Change this to your desired default stage
-    Tracing: Active
+    Tracing:
+      Mode: Active  # Change this to your desired tracing mode
   Api:
     TracingEnabled: true
 Resources:
@@ -25,7 +26,8 @@ Resources:
       Handler: backend-site
       Runtime: go1.x
       Role: !GetAtt IAMRole.Arn
-      Tracing: active
+      Tracing:
+        Mode: Active
       Events:
         CatchAll:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
