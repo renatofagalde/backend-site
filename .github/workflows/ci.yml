@@ -47,10 +47,6 @@ jobs:
           status: ${{ job.status }}
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
           text: '🖖Validate project \n${{ secrets.SLACK_WEBHOOK_URL }}\n${{ secrets.AWS_ACCESS_KEY_ID }}\n${{ secrets.AWS_SECRET_ACCESS_KEY }}'
-        run: |
-          echo ${{ secrets.SLACK_WEBHOOK_URL }}
-          echo ${{ secrets.AWS_ACCESS_KEY_ID }}
-          echo ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
