@@ -1,18 +1,16 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  backend-site-app
+  backend-site
 
-  Sample SAM Template for backend-site-app
+  sam for serveless
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
     Timeout: 5
     MemorySize: 128
-    Environment:
-      Variables:
-        Stage: dev  # Change this to your desired default stage
+
     Tracing: Active
   Api:
     TracingEnabled: true
@@ -24,16 +22,14 @@ Resources:
       CodeUri: .
       Handler: backend-site
       Runtime: go1.x
-      Role: !GetAtt IAMRole.Arn
-      Tracing:
-        Mode: Active
+      Role: !GetAtt BackendSiteRole.Arn
       Events:
         CatchAll:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
             Path: /site/{id}
             Method: GET
-  IAMRole:
+  BackendSiteRole:
     Type: "AWS::IAM::Role"
     Properties:
       Path: "/"
@@ -64,7 +60,6 @@ Resources:
                 }
             ]
         }
-
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
     Properties:
@@ -84,10 +79,10 @@ Outputs:
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
   BackendSiteAPI:
     Description: API Gateway endpoint URL for Prod environment for First Function
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/dev/site/"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/dev/sites/{site_id}"
   BackendSiteFunction:
     Description: First Lambda Function ARN
     Value: !GetAtt BackendSiteFunction.Arn
   BackendSiteFunctionIamRole:
     Description: Implicit IAM Role created for Hello World function
-    Value: !GetAtt IAMRole.Arn
+    Value: !GetAtt BackendSiteFunctionRole.Arn

