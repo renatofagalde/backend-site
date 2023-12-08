@@ -5,7 +5,6 @@ on:
     branches: [ develop ]
 
 jobs:
-  name: CICD
   build:
     name: Build & Develop Deploy
     runs-on: ubuntu-latest
