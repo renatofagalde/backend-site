@@ -38,7 +38,8 @@ jobs:
           text: '🖖Validate project'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: slack
         if: always()
         uses: 8398a7/action-slack@v3
@@ -47,9 +48,9 @@ jobs:
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
           text: '🖖Validate project'
         run: |
-          echo "${{ secrets.SLACK_WEBHOOK_URL }} " ${{ secrets.SLACK_WEBHOOK_URL }}
-          echo "${{ secrets.SLACK_WEBHOOK_URL }} " ${{ secrets.AWS_ACCESS_KEY_ID }}
-          echo "${{ secrets.SLACK_WEBHOOK_URL }} " ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          echo ${{ secrets.SLACK_WEBHOOK_URL }}
+          echo ${{ secrets.AWS_ACCESS_KEY_ID }}
+          echo ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
