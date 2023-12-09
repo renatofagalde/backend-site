@@ -48,7 +48,7 @@ aws cloudformation delete-stack --stack-name backend-site-stack-dev
 ```
 local test FindByID 
 ```shell
-export CGO_ENABLED=0 && sam build && sam local invoke -e ./_miscellaneous/lambda/apigateway-aws-proxy-get.json BackendSite
+export CGO_ENABLED=0 && sam build && sam local invoke -e ./_miscellaneous/lambda/find-by-id.json BackendSiteFunction
 ```
 
 ### BuildSpec
@@ -206,7 +206,7 @@ export GOARCH=amd64
 export CGO_ENABLED=0
 go mod tidy
 go build -o main main.go
-sam local invoke -e ./_miscellaneous/lambda/apigateway-aws-proxy-get.json BackendSiteAppFunction
+sam local invoke -e ./_miscellaneous/lambda/find-by-id.json BackendSiteAppFunction
 ```
 
 [Commits](https://github.com/iuricode/padroes-de-commits)

@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: Build & Deploy
+    name: Build & Develop Deploy
     runs-on: ubuntu-latest
     strategy:
       matrix:

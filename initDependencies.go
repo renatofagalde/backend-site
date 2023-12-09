@@ -2,7 +2,7 @@ package main
 
 import (
 	"backend-site/src/config/logger"
-	controller "backend-site/src/controller/site"
+	"backend-site/src/controller"
 	"backend-site/src/model/repository"
 	"backend-site/src/model/service"
 	"gorm.io/gorm"
