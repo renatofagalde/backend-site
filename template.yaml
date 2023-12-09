@@ -83,6 +83,6 @@ Outputs:
   BackendSiteFunction:
     Description: First Lambda Function ARN
     Value: !GetAtt BackendSiteFunction.Arn
-  BackendSiteFunctionIamRole:
-    Description: Implicit IAM Role created for Hello World function
-    Value: !GetAtt BackendSiteFunctionRole.Arn
+#  BackendSiteFunctionIamRole:
+#    Description: Implicit IAM Role created for Hello World function
+#    Value: !GetAtt BackendSiteFunctionRole.Arn
