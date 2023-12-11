@@ -9,6 +9,7 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"log"
 )
@@ -35,6 +36,7 @@ func init() {
 	siteController := initDependencies(database)
 
 	router := gin.Default()
+	router.Use(cors.Default())
 	routes.InitRoutes(&router.RouterGroup, siteController)
 	ginLambda = ginadapter.New(router)
 }
