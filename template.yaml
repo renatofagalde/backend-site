@@ -9,6 +9,7 @@ Parameters:
       - dev
       - prod
     Type: String
+    Default: dev
 Globals:
   Function:
     Timeout: 5
