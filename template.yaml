@@ -3,6 +3,12 @@ Transform: AWS::Serverless-2016-10-31
 Description: >
   backend-site
 
+Parameters:
+  Environment:
+    AllowedValues:
+      - dev
+      - prod
+    Type: String
 Globals:
   Function:
     Timeout: 5
@@ -14,7 +20,7 @@ Resources:
   BackendSiteFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      FunctionName: "BackendSiteFunction-dev"
+      FunctionName: !Sub "BackendSiteFunction-${Environment}"
       CodeUri: .
       Handler: backend-site
       Runtime: go1.x
@@ -73,6 +79,17 @@ Resources:
             ]
         }
 
+  CatalogsLogGroup:
+    Type: AWS::Logs::LogGroup
+    DependsOn:
+      - ExampleFunction
+    Properties:
+      LogGroupName:
+        !Join [
+          '',
+          ['/aws/lambda/', !Sub 'BackendSiteFunction-${Environment}']
+        ]
+      RetentionInDays: 3
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
     Properties:
@@ -96,6 +113,6 @@ Outputs:
   BackendSiteFunction:
     Description: First Lambda Function ARN
     Value: !GetAtt BackendSiteFunction.Arn
-  BackendSiteFunctionIamRole:
-    Description: Implicit IAM Role created for Hello World function
-    Value: !GetAtt BackendSiteFunctionRole.Arn
+#  BackendSiteFunctionIamRole:
+#    Description: Implicit IAM Role created for Hello World function
+#    Value: !GetAtt BackendSiteFunctionRole.Arn
