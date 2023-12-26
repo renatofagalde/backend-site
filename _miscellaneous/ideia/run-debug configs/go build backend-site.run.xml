@@ -20,9 +20,9 @@
       </ENTRIES>
     </EXTENSION>
     <EXTENSION ID="software.aws.toolkits.jetbrains.core.execution.GoAwsConnectionRunConfigurationExtension">
-      <option name="credential" />
-      <option name="region" />
-      <option name="useCurrentConnection" value="true" />
+      <option name="credential" value="profile:default" />
+      <option name="region" value="us-east-1" />
+      <option name="useCurrentConnection" value="false" />
     </EXTENSION>
     <kind value="PACKAGE" />
     <package value="backend-site" />

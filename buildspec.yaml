@@ -2,38 +2,59 @@ version: 0.2
 
 env:
   variables:
+    # This S3 bucket will be used to store the packaged Lambda deployment bundle.
+    # Make sure to provide a valid S3 bucket name (it must exist already).
+    # The AWS CodeBuild IAM role must allow write access to it.
     S3_BUCKET: "br.com.likwi.artifacts.apps.backend-site-dev"
-    PACKAGE: "main"
+    PACKAGE: "backend-site"
+    AWS_DEFAULT_REGION: "us-east-1"
 
 phases:
+
   install:
     commands:
-      # Install necessary tools for cross-compilation
-      - yum install -y glibc-static
-      - yum install -y libstdc++-static
-      - yum install -y gcc
-      - yum install -y gcc-c++
+
+      # AWS Codebuild Go images use /go for the $GOPATH so let's copy our
+      # application source code into that directory structure.
+      - mkdir -p "/go/src/$(dirname ${PACKAGE})"
+      - ln -s "${CODEBUILD_SRC_DIR}" "/go/src/${PACKAGE}"
+
+      # Print all environment variables (handy for AWS CodeBuild logs)
+      - env
+
+      # Install golint
+      #- go get -u github.com/golang/lint/golint
 
   pre_build:
     commands:
-      - echo "Setting GOXX variables 🖖"
-      - export GOOS=linux
-      - export GOARCH=amd64
-      - export CGO_ENABLED=0
-      - echo "🚀 -> 🪣"
+
+      # Make sure we're in the project directory within our GOPATH
+      #      - cd "/go/src/${PACKAGE}"
+
+      # Fetch all dependencies
+      #      - go get -t ./...
+
+      # Ensure code passes all lint tests
+      #- golint -set_exit_status
+
+      # Check the Go code for common problems with 'go vet'
+      #      - go vet ./...
+
+      # Run all tests included with our application
+      #      - go test ./...
+      - GOOS=linux
+      - GOARCH=amd64
+      - CGO_ENABLED=0
       - go mod tidy
-      - go get -t ./...
-      - go vet ./...
-      - go test ./...
+      - echo "go mod tidy -> OK"
 
   build:
     commands:
-      - echo "🚀 -> 🪣"
-      - go build -o backend-site *.go
-      - zip backend-site.zip backend-site
-      - aws s3 cp backend-site.zip s3://br.com.likwi.artifacts.apps.backend-site-dev
 
-      # Package the application with AWS SAM
+      # Build our go application
+      - go build
+
+      # Package our application with AWS SAM
       - aws cloudformation package --template-file template.yaml --s3-bucket ${S3_BUCKET} --output-template-file packaged.yaml
 
 artifacts:

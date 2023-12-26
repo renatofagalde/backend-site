@@ -1,12 +1,12 @@
 package routes
 
 import (
-	controller "backend-site/src/controller/site"
+	"backend-site/src/controller"
 	"github.com/gin-gonic/gin"
 )
 
 func InitRoutes(r *gin.RouterGroup, siteController controller.SiteControllerInterface) {
 
-	r.GET("/", siteController.FindById)
-	r.POST("/", siteController.Create)
+	r.GET("/sites/:id", siteController.FindById)
+	r.POST("/sites/", siteController.Create)
 }
