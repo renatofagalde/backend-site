@@ -3,14 +3,17 @@ Transform: AWS::Serverless-2016-10-31
 Description: >
   backend-site
 
-  sam for serveless
-
-# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Parameters:
+  Environment:
+    AllowedValues:
+      - dev
+      - prod
+    Type: String
+    Default: dev
 Globals:
   Function:
     Timeout: 5
     MemorySize: 128
-
     Tracing: Active
   Api:
     TracingEnabled: true
@@ -18,7 +21,7 @@ Resources:
   BackendSiteFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      FunctionName: "BackendSiteFunction-dev"
+      FunctionName: !Sub "BackendSiteFunction-${Environment}"
       CodeUri: .
       Handler: backend-site
       Runtime: go1.x
@@ -57,9 +60,37 @@ Resources:
                         "ec2:DeleteNetworkInterface"
                     ],
                     "Resource": "*"
-                }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": "logs:CreateLogGroup",
+                  "Resource": "arn:aws:logs:region:012821307542:*"
+                },
+                
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents"
+                  ],
+                  "Resource": [
+                    "arn:aws:logs:region:012821307542:log-group:/aws/lambda/BackendSiteFunction-dev:*"
+                  ]
+                }        
             ]
         }
+
+  CatalogsLogGroup:
+    Type: AWS::Logs::LogGroup
+    DependsOn:
+      - ExampleFunction
+    Properties:
+      LogGroupName:
+        !Join [
+          '',
+          ['/aws/lambda/', !Sub 'BackendSiteFunction-${Environment}']
+        ]
+      RetentionInDays: 3
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
     Properties:
