@@ -3,14 +3,10 @@ Transform: AWS::Serverless-2016-10-31
 Description: >
   backend-site
 
-  sam for serveless
-
-# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
     Timeout: 5
     MemorySize: 128
-
     Tracing: Active
   Api:
     TracingEnabled: true
@@ -76,6 +72,7 @@ Resources:
                 }        
             ]
         }
+
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
     Properties:
@@ -99,6 +96,6 @@ Outputs:
   BackendSiteFunction:
     Description: First Lambda Function ARN
     Value: !GetAtt BackendSiteFunction.Arn
-#  BackendSiteFunctionIamRole:
-#    Description: Implicit IAM Role created for Hello World function
-#    Value: !GetAtt BackendSiteFunctionRole.Arn
+  BackendSiteFunctionIamRole:
+    Description: Implicit IAM Role created for Hello World function
+    Value: !GetAtt BackendSiteFunctionRole.Arn
