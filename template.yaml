@@ -1,119 +1,65 @@
-AWSTemplateFormatVersion: '2010-09-09'
-Transform: AWS::Serverless-2016-10-31
-Description: >
-  backend-site
-
+AWSTemplateFormatVersion: 2010-09-09
+Description: backend site in golang
 Parameters:
-  Environment:
-    AllowedValues:
-      - dev
-      - prod
+  Stage:
     Type: String
     Default: dev
-Globals:
-  Function:
-    Timeout: 5
-    MemorySize: 128
-    Tracing: Active
-  Api:
-    TracingEnabled: true
-Resources:
-  BackendSiteFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      FunctionName: !Sub "BackendSiteFunction-${Environment}"
-      CodeUri: .
-      Handler: backend-site
-      Runtime: go1.x
-      Role: !GetAtt BackendSiteRole.Arn
-      Events:
-        CatchAll:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /sites/{id}
-            Method: GET
-  BackendSiteRole:
-    Type: "AWS::IAM::Role"
-    Properties:
-      Path: "/"
-      RoleName: "Lambdapermissions"
-      AssumeRolePolicyDocument: "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"lambda.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}"
-      ManagedPolicyArns:
-        - !Ref IAMManagedPolicy
-      Description: "Allows Lambda functions to call AWS services on your behalf."
-  IAMManagedPolicy:
-    Type: "AWS::IAM::ManagedPolicy"
-    Properties:
-      ManagedPolicyName: "LambdaSecretsPolicy"
-      Path: "/"
-      PolicyDocument: |
-        {
-            "Version": "2012-10-17",
-            "Statement": [
-                {
-                    "Sid": "Statement1",
-                    "Effect": "Allow",
-                    "Action": [
-                        "secretsmanager:GetSecretValue",
-                        "ec2:CreateNetworkInterface",
-                        "ec2:DescribeNetworkInterfaces",
-                        "ec2:DeleteNetworkInterface"
-                    ],
-                    "Resource": "*"
-                },
-                {
-                  "Effect": "Allow",
-                  "Action": "logs:CreateLogGroup",
-                  "Resource": "arn:aws:logs:region:012821307542:*"
-                },
-                
-                {
-                  "Effect": "Allow",
-                  "Action": [
-                    "logs:CreateLogStream",
-                    "logs:PutLogEvents"
-                  ],
-                  "Resource": [
-                    "arn:aws:logs:region:012821307542:log-group:/aws/lambda/BackendSiteFunction-dev:*"
-                  ]
-                }        
-            ]
-        }
+  S3BucketName:
+    Type: String
+    Default: br.com.likwi.artifacts.apps.backend-site-dev
 
-  CatalogsLogGroup:
+Resources:
+  BackendSiteAppFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub "backend-site-app-${Stage}"
+      Runtime: go1.x
+      Handler: backend-site
+      Description: site backend
+      Timeout: 300
+      MemorySize: 128
+      Environment:
+        Variables:
+          Stage: !Ref Stage
+      Code:
+        S3Bucket: !Ref S3BucketName
+        S3Key: backend-site.zip
+      Role: !GetAtt LambdaExecutionRole.Arn
+    DependsOn: [SiteLogGroup,LambdaExecutionRole]
+
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: LambdaExecutionRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: SecretsManagerAccessPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - secretsmanager:GetSecretValue
+                Resource: "arn:aws:secretsmanager:us-east-1:012821307542:secret:dev/mysql/api-jNAmkR"
+        - PolicyName: CloudWatchLogsAccessPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+
+  SiteLogGroup:
     Type: AWS::Logs::LogGroup
-    DependsOn:
-      - ExampleFunction
     Properties:
-      LogGroupName:
-        !Join [
-          '',
-          ['/aws/lambda/', !Sub 'BackendSiteFunction-${Environment}']
-        ]
+      LogGroupName: "/api/lambda/backendsite"
       RetentionInDays: 3
-  ApplicationResourceGroup:
-    Type: AWS::ResourceGroups::Group
-    Properties:
-      Name:
-        Fn::Sub: ApplicationInsights-SAM-${AWS::StackName}
-      ResourceQuery:
-        Type: CLOUDFORMATION_STACK_1_0
-  ApplicationInsightsMonitoring:
-    Type: AWS::ApplicationInsights::Application
-    Properties:
-      ResourceGroupName:
-        Ref: ApplicationResourceGroup
-      AutoConfigurationEnabled: 'true'
-Outputs:
-  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
-  # Find out more about other implicit resources you can reference within SAM
-  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  BackendSiteAPI:
-    Description: API Gateway endpoint URL for Prod environment for First Function
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/dev/sites/{site_id}"
-  BackendSiteFunction:
-    Description: First Lambda Function ARN
-    Value: !GetAtt BackendSiteFunction.Arn
-#  BackendSiteFunctionIamRole:
-#    Description: Implicit IAM Role created for Hello World function
-#    Value: !GetAtt BackendSiteFunctionRole.Arn

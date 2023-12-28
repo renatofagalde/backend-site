@@ -1,0 +1,60 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: backend site in golang
+Parameters:
+  Stage:
+    Type: String
+    Default: dev
+  S3BucketName:
+    Type: String
+    Default: br.com.likwi.artifacts.apps.backend-site-dev
+Resources:
+  BackendSiteAppFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName:
+        Fn::Sub: backend-site-app-${Stage}
+      Runtime: go1.x
+      Handler: backend-site
+      Description: site backend
+      Timeout: 300
+      MemorySize: 128
+      Environment:
+        Variables:
+          Stage:
+            Ref: Stage
+      Code:
+        S3Bucket:
+          Ref: S3BucketName
+        S3Key: backend-site.zip
+      Role:
+        Fn::GetAtt:
+        - LambdaExecutionRole
+        - Arn
+    DependsOn:
+    - SiteLogGroup
+    - LambdaExecutionRole
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: LambdaExecutionRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: lambda.amazonaws.com
+          Action: sts:AssumeRole
+      Policies:
+      - PolicyName: SecretsManagerAccessPolicy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - secretsmanager:GetSecretValue
+            Resource: arn:aws:secretsmanager:us-east-1:012821307542:secret:dev/mysql/api-jNAmkR
+  SiteLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /api/lambda/backendsite
+      RetentionInDays: 3
