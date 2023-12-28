@@ -1,5 +1,5 @@
 # Tarefas para iniciar o projeto
- 
+
 ### Initialize project module
 #### module:
 ```shell
@@ -40,13 +40,13 @@ aws cloudformation package --template-file template.yaml --output-template-file 
 
 [//]: # (aws cloudformation deploy --template-file packaged.yaml --stack-name backend-site-dev-stack --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM)
 ```shell
-aws cloudformation deploy --template-file packaged.yaml --stack-name backend-site-dev-stack --capabilities CAPABILITY_IAM
+aws cloudformation deploy --template-file packaged.yaml --stack-name backend-site-dev-stack --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
 ```
 deletar a stack
 ```shell
 aws cloudformation delete-stack --stack-name backend-site-stack-dev
 ```
-local test FindByID 
+local test FindByID
 ```shell
 export CGO_ENABLED=0 && sam build && sam local invoke -e ./_miscellaneous/lambda/find-by-id.json BackendSiteFunction
 ```
