@@ -21,7 +21,7 @@ func (siteController *siteControllerInterface) Create(c *gin.Context) {
 		return
 	}
 
-	domain := model.NewSiteDomain(siteRequest.Title)
+	domain := model.NewSiteDomain(siteRequest.Title, "", "", "", "")
 
 	result, err := siteController.service.Create(domain)
 	if err != nil {

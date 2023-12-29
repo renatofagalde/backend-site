@@ -3,7 +3,6 @@ package mysqldb
 import (
 	"backend-site/src/config/aws.secrets/model"
 	"backend-site/src/config/logger"
-	"backend-site/src/model/repository/entity"
 	"context"
 	"fmt"
 	"gorm.io/driver/mysql"
@@ -22,7 +21,7 @@ func NewMySQLGORMConnection(ctx context.Context, mysqlProperties model.MySQLProp
 	logger.Info(connectionLOGString)
 
 	db, err := gorm.Open(mysql.Open(connectionString), &gorm.Config{})
-	db.AutoMigrate(&entity.SiteEntity{})
+	//db.AutoMigrate(&entity.SiteEntity{})
 
 	if err != nil {
 		return nil, err
