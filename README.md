@@ -55,7 +55,7 @@ aws cloudformation delete-stack --stack-name backend-site-stack-dev
 ```
 local test FindByID
 ```shell
-export CGO_ENABLED=0 && sam build && sam local invoke -e ./_miscellaneous/lambda/find-by-id.json BackendSiteFunction
+export CGO_ENABLED=0 && sam build && sam local invoke -e ./_miscellaneous/lambda/find-by-id.json backend-site-app-dev
 ```
 
 ### BuildSpec
