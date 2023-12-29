@@ -14,5 +14,11 @@ func NewSiteDomain(title string, bannerTitle string, bannerTitleSlogan string,
 type SiteDomainInterface interface {
 	GetID() uint
 	GetTitle() string
+
+	GetBannerTitle() string
+	GetBannerTitleSlogan() string
+
+	GetSecao01Title() string
+	GetSecao01TitleDescription() string
 	AtribuirID(uint)
 }
