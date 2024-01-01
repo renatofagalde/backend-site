@@ -1,13 +1,24 @@
 package model
 
-func NewSiteDomain(title string) SiteDomainInterface {
+func NewSiteDomain(title string, bannerTitle string, bannerTitleSlogan string,
+	secao01Title string, secao01TitleDescription string) SiteDomainInterface {
 	return &siteDomain{
-		title: title,
+		title:                   title,
+		bannerTitle:             bannerTitle,
+		bannerTitleSlogan:       bannerTitleSlogan,
+		secao01Title:            secao01Title,
+		secao01TitleDescription: secao01TitleDescription,
 	}
 }
 
 type SiteDomainInterface interface {
 	GetID() uint
 	GetTitle() string
+
+	GetBannerTitle() string
+	GetBannerTitleSlogan() string
+
+	GetSecao01Title() string
+	GetSecao01TitleDescription() string
 	AtribuirID(uint)
 }
