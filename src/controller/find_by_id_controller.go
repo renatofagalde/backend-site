@@ -5,6 +5,7 @@ import (
 	"backend-site/src/view"
 	"encoding/json"
 	"fmt"
+	"github.com/awslabs/aws-lambda-go-api-proxy/core"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"log"
@@ -32,6 +33,9 @@ func (siteController *siteControllerInterface) FindById(c *gin.Context) {
 			logger.Info(fmt.Sprintf("header2 %s -> %s", name, value), zap.String("journey", "findByID"))
 		}
 	}
+
+	apiGWRequestContext, ok := core.GetAPIGatewayContextFromContext(c.Request.Context())
+	logger.Info(fmt.Sprintf("apiGWRequestContext %+v -> %+v", apiGWRequestContext, ok), zap.String("journey", "findByID"))
 
 	siteDomain, err := siteController.service.FindByID(id)
 	if err != nil {
