@@ -7,6 +7,10 @@ import (
 
 func ConvertDomainToResponse(domain model.SiteDomainInterface) response.SiteResponse {
 	return response.SiteResponse{
-		Title: domain.GetTitle(),
+		Title:                   domain.GetTitle(),
+		BannerTitle:             domain.GetBannerTitle(),
+		BannerTitleSlogan:       domain.GetBannerTitleSlogan(),
+		Secao01Title:            domain.GetSecao01Title(),
+		Secao01TitleDescription: domain.GetSecao01TitleDescription(),
 	}
 }

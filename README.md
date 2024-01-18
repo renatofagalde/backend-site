@@ -1,5 +1,5 @@
 # Tarefas para iniciar o projeto
- 
+
 ### Initialize project module
 #### module:
 ```shell
@@ -21,34 +21,41 @@
 - br.com.likwi.artifacts.apps.backend-site-hom
 - br.com.likwi.artifacts.apps.backend-site-prd
 
+
+#### compilando
 ### Actions necessary before pipeline creation
 ```shell
-GOOS=linux GOARCH=amd64  CGO_ENABLED=0 go build -o backend-site main.go
+GOOS=linux GOARCH=amd64  CGO_ENABLED=0 go build
 ```
 
+
+#### zipping
 ```shell
 zip backend-site.zip backend-site
 ```
 
+
+#### update artefato
 ```shell
 aws s3 cp backend-site.zip s3://br.com.likwi.artifacts.apps.backend-site-dev
 ```
 
+#### update
 ```shell
 aws cloudformation package --template-file template.yaml --output-template-file packaged.yaml --s3-bucket br.com.likwi.artifacts.apps.backend-site-dev
 ```
 
-[//]: # (aws cloudformation deploy --template-file packaged.yaml --stack-name backend-site-dev-stack --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM)
+#### Deploy
 ```shell
-aws cloudformation deploy --template-file packaged.yaml --stack-name backend-site-dev-stack --capabilities CAPABILITY_IAM
+aws cloudformation deploy --template-file packaged.yaml --stack-name backend-site-dev-stack --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
 ```
 deletar a stack
 ```shell
 aws cloudformation delete-stack --stack-name backend-site-stack-dev
 ```
-local test FindByID 
+local test FindByID
 ```shell
-export CGO_ENABLED=0 && sam build && sam local invoke -e ./_miscellaneous/lambda/find-by-id.json BackendSiteFunction
+export CGO_ENABLED=0 && sam build && sam local invoke -e ./_miscellaneous/lambda/find-by-id.json backend-site-app-dev
 ```
 
 ### BuildSpec

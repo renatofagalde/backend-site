@@ -4,6 +4,6 @@ stack_name = "backend-site-stack-dev"
 resolve_s3 = true
 s3_prefix = "backend-site-stack-dev"
 region = "us-east-1"
-capabilities = ["CAPABILITY_IAM","CAPABILITY_NAMED_IAM"]
-parameter_overrides = "Stage=\"dev\""
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "Stage=\"dev\" S3BucketName=\"br.com.likwi.artifacts.apps.backend-site-dev\""
 image_repositories = []
