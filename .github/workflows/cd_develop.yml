@@ -1,5 +1,5 @@
 name: CICD-Develop
-
+run-name: ${{ github.actor }} is CICD on going to Develop
 on:
   push:
     branches: [ develop ]
@@ -51,7 +51,8 @@ jobs:
           export CGO_ENABLED=0 && sam build
       - name: SAM Deploy
         run: |
-          sam deploy --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
+          sam deploy --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM \
+            --no-fail-on-empty-changeset
       - name: notify progress
         if: always()
         uses: 8398a7/action-slack@v3
