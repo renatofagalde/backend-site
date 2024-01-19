@@ -16,8 +16,8 @@ func (siteController *siteControllerInterface) FindById(c *gin.Context) {
 	id := c.Param("id")
 	out, _ := json.Marshal(c)
 	logger.Info(fmt.Sprintf("context %+v", out), zap.String("journey", "findByID"))
-
-	logger.Info(fmt.Sprintf("origin: %s", c.Request.Header.Get("Origin")))
+	var origin = c.Request.Header.Get("Origin")
+	logger.Info(fmt.Sprintf("origin: %s", origin))
 
 	siteDomain, err := siteController.service.FindByID(id)
 	if err != nil {
