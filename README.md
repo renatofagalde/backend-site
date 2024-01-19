@@ -58,6 +58,10 @@ local test FindByID
 export CGO_ENABLED=0 && sam build && sam local invoke -e ./_miscellaneous/lambda/find-by-id.json backend-site-app-dev
 ```
 
+```shell
+aws lambda update-function-code --function-name backend-site-app-dev --zip-file fileb://backend-site.zip
+```
+
 ### BuildSpec
 - Use this documentation: [AWS CodeBuild](https://docs.aws.amazon.com/codebuild/latest/userguide/getting-started-create-build-spec-console.html)
 - Available runtimes: [runtime](https://docs.aws.amazon.com/codebuild/latest/userguide/available-runtimes.html)

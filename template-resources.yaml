@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: backend site in golang
+Parameters:
+  Stage:
+    Type: String
+    Default: dev
+  S3BucketName:
+    Type: String
+    Default: br.com.likwi.artifacts.apps.backend-site-dev
+
+Resources:
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: LambdaExecutionRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: SecretsManagerAccessPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - secretsmanager:GetSecretValue
+                Resource: "arn:aws:secretsmanager:us-east-1:012821307542:secret:dev/mysql/api-jNAmkR"
+        - PolicyName: CloudWatchLogsAccessPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+
+  SiteLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: "/api/lambda/backendsite"
+      RetentionInDays: 3

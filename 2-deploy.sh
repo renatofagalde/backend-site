@@ -2,7 +2,7 @@
 set -eo pipefail
 #ARTIFACT_BUCKET=$(cat bucket-name.txt)
 ARTIFACT_BUCKET=br.com.likwi.artifacts.apps.backend-site-dev
-STACK_NAME=backend-site-stack
+STACK_NAME=backend-site
 go mod tidy
 CGO_ENABLED=0 GOOS=linux go build
 pwd
