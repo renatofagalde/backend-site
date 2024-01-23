@@ -16,5 +16,5 @@ type siteDomainService struct {
 
 type SiteDomainService interface {
 	Create(domainInterface model.SiteDomainInterface) (model.SiteDomainInterface, *rest_err.RestErr)
-	FindByID(id string) (model.SiteDomainInterface, *rest_err.RestErr)
+	FindByID(domain string) (model.SiteDomainInterface, *rest_err.RestErr)
 }

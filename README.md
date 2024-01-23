@@ -58,6 +58,7 @@ local test FindByID
 export CGO_ENABLED=0 && sam build && sam local invoke -e ./_miscellaneous/lambda/find-by-id.json backend-site-app-dev
 ```
 
+deploy lambda
 ```shell
 aws lambda update-function-code --function-name backend-site-app-dev --zip-file fileb://backend-site.zip
 ```
