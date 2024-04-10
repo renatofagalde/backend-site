@@ -1,5 +1,5 @@
 name: CICD-Develop
-run-name: ${{ github.actor }} is CICD on going to Develop
+run-name: ${{ github.actor }} is CICD on going to Develop xx
 on:
   push:
     branches: [ develop ]
