@@ -1,5 +1,5 @@
 name: CICD-Develop
-
+run-name: ${{ github.actor }} is CICD on going to Develop
 on:
   push:
     branches: [ develop ]
@@ -48,10 +48,13 @@ jobs:
           aws-region: us-east-2
       - name: SAM Build
         run: |
-          export CGO_ENABLED=0 && sam build
+          export  CGO_ENABLED=0 GOOS=linux GOARCH=amd64 && sam build
       - name: SAM Deploy
+
         run: |
-          sam deploy --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
+          sam deploy --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM \
+            --s3-bucket br.com.likwi.artifacts.apps.backend-site-dev \
+            --no-fail-on-empty-changeset
       - name: notify progress
         if: always()
         uses: 8398a7/action-slack@v3
