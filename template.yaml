@@ -35,6 +35,7 @@ Resources:
 
   LambdaExecutionRole:
     Type: AWS::IAM::Role
+    Condition: CreateLambdaRole
     Properties:
       RoleName: LambdaExecutionRole
       AssumeRolePolicyDocument:
