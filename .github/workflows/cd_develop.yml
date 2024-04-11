@@ -50,10 +50,8 @@ jobs:
         run: |
           export  CGO_ENABLED=0 GOOS=linux GOARCH=amd64 && sam build
       - name: SAM Deploy
-
         run: |
-          sam deploy --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM \
-            --s3-bucket br.com.likwi.artifacts.apps.backend-site-dev \
+          sam deploy --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM \            
             --no-fail-on-empty-changeset
       - name: notify progress
         if: always()
