@@ -48,7 +48,7 @@ jobs:
           aws-region: us-east-2
       - name: SAM Build
         run: |
-          export  CGO_ENABLED=0 GOOS=linux GOARCH=amd64 && sam build
+          export SAM_CLI_TELEMETRY=0 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 && sam build
       - name: SAM Deploy
         run: |
           sam deploy --stack-name backend-site  --capabilities CAPABILITY_AUTO_EXPAND CAPABILITY_IAM CAPABILITY_NAMED_IAM \

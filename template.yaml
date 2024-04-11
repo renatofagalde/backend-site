@@ -8,9 +8,6 @@ Parameters:
     Type: String
     Default: br.com.likwi.artifacts.apps.backend-site-dev
 
-Conditions:
-  CreateLambdaRole: !Not [!Equals [!GetAtt LambdaExecutionRole.Arn, ""]]
-
 Resources:
   BackendSiteAppFunction:
     Type: AWS::Lambda::Function
@@ -28,45 +25,20 @@ Resources:
         S3Bucket: !Ref S3BucketName
         S3Key: backend-site.zip
       Role: !If
-        - CreateLambdaRole
+        - LambdaExecutionRoleExists
         - !GetAtt LambdaExecutionRole.Arn
         - !Ref "AWS::NoValue"
     DependsOn: [SiteLogGroup,LambdaExecutionRole]
-
-  LambdaExecutionRole:
-    Type: AWS::IAM::Role
-    Condition: CreateLambdaRole
-    Properties:
-      RoleName: LambdaExecutionRole
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: lambda.amazonaws.com
-            Action: sts:AssumeRole
-      Policies:
-        - PolicyName: SecretsManagerAccessPolicy
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - secretsmanager:GetSecretValue
-                Resource: "arn:aws:secretsmanager:us-east-1:012821307542:secret:dev/mysql/api-jNAmkR"
-        - PolicyName: CloudWatchLogsAccessPolicy
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - logs:CreateLogGroup
-                  - logs:CreateLogStream
-                  - logs:PutLogEvents
-                Resource: "*"
 
   SiteLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
       LogGroupName: "/api/lambda/backendsite"
       RetentionInDays: 3
+
+Transform:
+  - Name: 'AWS::Serverless-2016-10-31'
+    Parameters:
+      LambdaExecutionRoleExists:
+        Type: String
+        Description: 'Indicates whether Lambda execution role already exists or not.'
